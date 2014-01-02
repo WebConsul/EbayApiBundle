@@ -26,7 +26,7 @@ class GetCategoriesCall extends BaseTradingCall
      */
     public function getInput()
     {
-        $this->input .= '<RequesterCredentials><eBayAuthToken>' . parent::AUTH_TOKEN . '</eBayAuthToken></RequesterCredentials>' . "\n";
+        $this->input .= '<RequesterCredentials><eBayAuthToken>' . parent::$parameters['auth_token'] . '</eBayAuthToken></RequesterCredentials>' . "\n";
         if (!empty($this->categoryParent)) {
             foreach ($this->categoryParent as $parent) {
                 $this->input .= '<CategoryParent>' . $parent . '</CategoryParent>' . "\n";
