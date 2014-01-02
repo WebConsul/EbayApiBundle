@@ -1,0 +1,4 @@
+web_consul_ebay_api_homepage:
+    resource: "@WebConsulEbayApiBundle/Controller/"
+    type: annotation
+ #   defaults: { _controller: WebConsulEbayApiBundle:Default:index }

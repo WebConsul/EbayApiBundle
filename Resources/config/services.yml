@@ -1,0 +1,9 @@
+parameters:
+    web_consul_ebay_api.main.class: WebConsul\EbayApiBundle\Call\BaseCall
+
+services:
+    web_consul_ebay_api.main:
+        class: %web_consul_ebay_api.main.class%
+        arguments:
+          parameters: %web_consul_ebay_api%
+ #       arguments: [@service_id, "plain_value", %parameter%]
