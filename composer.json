@@ -1,0 +1,36 @@
+{
+    "name": "webconsul/ebay-api-bundle",
+    "type": "symfony-bundle",
+    "description": "Wrapper for eBay API. Bundle for Symfony2",
+    "keywords": ["ebay", "api", "shopping", "finding", "trading"],
+    "homepage": "http://webconsul.github.io/EbayApiBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexander Yakutskiy",
+            "email": "a.yakutskiy@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/framework-bundle": "~2.1"
+    },
+    "require-dev": {
+        "twig/twig": "~1.5"
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-0": {
+            "WebConsul\\eBayAPIBundle": ""
+        }
+    },
+    "target-dir": "WebConsul/eBayAPIBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+
+}
