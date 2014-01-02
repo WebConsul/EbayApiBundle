@@ -28,20 +28,9 @@ class CallController extends Controller
                 'GetSingleItem',
                 'GetUserProfile'
             ),
-            'Trading' => array(),
+            'Trading' => array('GetCategories'),
             'Finding' => array(),
         );
-
-        /* $call = $ebay::getInstance('Trading', 'GetCategories');
-         $call->setMode($ebay::MODE_PRODUCT)
-             ->setSiteID(15)
-             ->setCategorySiteID(2)
-             ->setDetailLevel('ReturnAll')
-             ->setLevelLimit(2)
-             ->setWarningLevel('High');
-
-    */
-
 
         return array('callList' => $callList);
     }
@@ -98,6 +87,13 @@ class CallController extends Controller
             case 'GetUserProfile':
                 $call->setUserID('yakutskiy')
                     ->setIncludeSelector(array('Details', 'FeedbackDetails'));
+                break;
+            case 'GetCategories':
+                $call->setSiteID(15)
+                    ->setCategorySiteID(2)
+                    ->setDetailLevel('ReturnAll')
+                    ->setLevelLimit(2)
+                    ->setWarningLevel('High');
                 break;
         }
 
