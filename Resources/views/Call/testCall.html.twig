@@ -1,0 +1,16 @@
+<p><a href="{{ path('call_test_index') }}">Call reference</a></p>
+<h1>{{ api }} &raquo; {{ callName }}</h1>
+<h2>HTTP headers:</h2>
+{% for header in headers %}
+    {{ header }}<br/>
+{% endfor %}
+
+<h2>Input Fields</h2>
+<pre>
+{{ postFields }}
+</pre>
+
+<h2>Output</h2>
+<pre>
+{{ output }}
+</pre>
