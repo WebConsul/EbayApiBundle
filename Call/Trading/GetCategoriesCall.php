@@ -11,7 +11,7 @@ class GetCategoriesCall extends BaseTradingCall
     private $categorySiteID;
     private $levelLimit;
     private $viewAllNodes;
-    private $standardInputFields = array(
+    public $standardInputFields = array(
         'DetailLevel',
         'ErrorLanguage',
         'MessageID',
@@ -122,12 +122,5 @@ class GetCategoriesCall extends BaseTradingCall
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getStandardInputFields()
-    {
-        return $this->standardInputFields;
-    }
 
 }
