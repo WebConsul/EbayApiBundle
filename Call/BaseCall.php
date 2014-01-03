@@ -26,6 +26,7 @@ class BaseCall
     protected $input;
 
     private $requestUrl;
+    private $postFields;
 
 
     public function __construct(array $parameters)
@@ -42,7 +43,7 @@ class BaseCall
     {
         self::$apiName = $apiName;
         self::$callName = $callName;
-        $className = 'WebConsul\\EbayApiBundle\\Call\\' . $apiName . '\\' . $callName . 'Call';
+        $className = 'WebConsul\\EbayApiBundle\\Call\\' . $apiName . '\\' . ucfirst($callName) . 'Call';
 
         return new $className(self::$parameters);
     }
@@ -55,13 +56,6 @@ class BaseCall
         return $this->headers;
     }
 
-    /**
-     * @return string
-     */
-    public function getInput()
-    {
-        return $this->input;
-    }
 
     /**
      * @param int $siteId
@@ -121,18 +115,20 @@ class BaseCall
      * @param array $standardInputFields
      * @return string
      */
-    private function appendStandardInputFields($standardInputFields)
+    protected function appendStandardInputFields($standardInputFields)
     {
         $standardInput = '';
-        foreach ($standardInputFields as $inputField) {
-            $method = 'get' . $inputField;
-            $value = $this->$method();
-            if (is_array($value) && !empty($value)) {
-                foreach ($value as $str) {
-                    $standardInput .= '<' . $inputField . '>' . $str . '</' . $inputField . '>' . "\n";
+        if (!empty($standardInputFields)) {
+            foreach ($standardInputFields as $inputField) {
+                $method = 'get' . $inputField;
+                $value = $this->$method();
+                if (is_array($value) && !empty($value)) {
+                    foreach ($value as $str) {
+                        $standardInput .= '<' . $inputField . '>' . $str . '</' . $inputField . '>' . "\n";
+                    }
+                } elseif (!is_array($value) && $value) {
+                    $standardInput .= '<' . $inputField . '>' . $value . '</' . $inputField . '>' . "\n";
                 }
-            } elseif (!is_array($value) && $value) {
-                $standardInput .= '<' . $inputField . '>' . $value . '</' . $inputField . '>' . "\n";
             }
         }
 
@@ -157,10 +153,22 @@ class BaseCall
 
     public function getPostFields()
     {
-        return $this->openRequest()
-        . $this->getInput()
-        . $this->appendStandardInputFields($this->getStandardInputFields())
-        . $this->closeRequest();
+        if (!$this->postFields) {
+            $this->postFields = $this->openRequest()
+                . $this->getInput()
+                . $this->appendStandardInputFields($this->getStandardInputFields())
+                . $this->closeRequest();
+        }
+
+        return $this->postFields;
     }
 
-} 
+    /**
+     * @return array
+     */
+    protected function getStandardInputFields()
+    {
+        return $this->standardInputFields;
+    }
+
+}

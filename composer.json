@@ -26,11 +26,5 @@
             "WebConsul\\EbayApiBundle": ""
         }
     },
-    "target-dir": "WebConsul/EbayApiBundle",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.1.x-dev"
-        }
-    }
-
+    "target-dir": "WebConsul/EbayApiBundle"
 }
