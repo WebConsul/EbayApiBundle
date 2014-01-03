@@ -76,26 +76,24 @@ Values for that parameters you can get on your account page of [the eBay Develop
 
 All the installation instructions are located in  the documentation.
 
-Testing API calls
+Examples of the API calls
 -----------------
-If you want test API calls, you can configure `CallController` from the EbayApiBundle.
+If you want see examples and test API calls, you can configure `CallController` from the EbayApiBundle.
 ### Step 1: Routing
-```
+```js
 // app/config/routing.yml
 web_consul_ebay_api_homepage:
     resource: "@WebConsulEbayApiBundle/Controller/"
     type: annotation
 ```
 ### Step 2: Browsing
-Open in your browser:
-`http://YOUR_HOST/callReference`
+Open in your browser: `http://YOUR_HOST/callReference`.
+
 On that page you can see full list of the available API calls.
 ### Step 3: Change call parameters
-You can change parameters for API calls. Just edit `testCallAction` in the `Controller/CallController`.
-
+You can change parameters for API calls' examples. Just edit `testCallAction` in the `Controller/CallController`.
 License
 -------
-
 This bundle is under the MIT license. See the complete license in the bundle:
 
     Resources/meta/LICENSE
