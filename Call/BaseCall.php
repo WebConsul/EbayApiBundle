@@ -90,6 +90,9 @@ class BaseCall
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->getHeaders()); //set headers using the above array of headers
         curl_setopt($ch, CURLOPT_POSTFIELDS, $this->getPostFields());
+        if (isset(self::$parameters['timeout'])) {
+            curl_setopt($ch, CURLOPT_TIMEOUT, self::$parameters['timeout']);
+        }
         $data = curl_exec($ch);
         curl_close($ch);
 
