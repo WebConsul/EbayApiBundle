@@ -9,16 +9,47 @@ This project intends to create a simple wrapper around main eBay APIs:
 
 **Caution:** Calls for Trading API are in progress... Coming soon.
 
-Documentation
+API Reference (supporting calls)
+--------------------------------
+
+* Shopping API (version 897)
+    *  FindPopularItems
+    *  FindPopularSearches
+    *  FindProducts
+    *  FindReviewsAndGuides
+    *  GetCategoryInfo
+    *  GeteBayTime
+    *  GetItemStatus
+    *  GetMultipleItems
+    *  GetShippingCosts
+    *  GetSingleItem
+    * GetUserProfile
+
+* Finding API (version 1.13.0)    
+    * findCompletedItems
+    * findItemsAdvanced
+    * findItemsByCategory
+    * findItemsByImage **Caution:** temporary not Supporting!
+    * findItemsByKeywords
+    * findItemsByProduct
+    * findItemsIneBayStores
+    * getHistograms
+    * getSearchKeywordsRecommendation
+
+* Trading API (version 903)
+    * GetCategories
+    * **Caution:** Other calls are in progress...
+
+Simple example
 -------------
 
-Simple example (into controller):
+(in controller):
 
 ```php
-$ebay = $this->get('web_consul_ebay_api.main');
 $api = 'Shopping';
 $callName = 'FindPopularItems';
-$call = $ebay::getInstance($api, $callName);
+$ebay = $this->get('web_consul_ebay_api.main');
+$call = $ebay->getInstance($api, $callName);
 $call->setMode($ebay::MODE_SANDBOX)
      ->setMaxEntries(3)
      ->setQueryKeywords('Harry Potter');

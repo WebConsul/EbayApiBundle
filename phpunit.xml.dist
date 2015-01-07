@@ -11,7 +11,7 @@
         >
     <testsuites>
         <testsuite name="WebConsul EbayApi Bundle">
-            <directory suffix=".php">Tests</directory>
+            <directory suffix="Test.php">./Tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>

@@ -49,13 +49,13 @@ class CallController extends Controller
      * @Route("/callTest/{api}/{callName}", name="call_test_show")
      * @param string $api
      * @param string $callName
-     * @return
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function testCallAction($api, $callName)
     {
         /** @var \WebConsul\EbayApiBundle\Call\BaseCall $ebay */
         $ebay = $this->get('web_consul_ebay_api.main');
-        $call = $ebay::getInstance($api, $callName);
+        $call = $ebay->getInstance($api, $callName);
         $call->setMode($ebay::MODE_PRODUCT);
         switch ($callName) {
             // Shopping API
@@ -81,10 +81,10 @@ class CallController extends Controller
                     ->setIncludeSelector('ChildCategories');
                 break;
             case 'GetItemStatus':
-                $call->setItemID(array(161188270777, 221346769539));
+                $call->setItemID(array(291199543274, 321632064639));
                 break;
             case 'GetMultipleItems':
-                $call->setItemID(array(161188270777, 221346769539))
+                $call->setItemID(array(291199543274, 321632064639))
                     ->setIncludeSelector(array('Description', 'Variations'));
                 break;
             case 'GetShippingCosts':
@@ -95,8 +95,8 @@ class CallController extends Controller
                     ->setDestinationCountryCode('US');
                 break;
             case 'GetSingleItem':
-                $call->setItemID(331092630373)
-                    ->setIncludeSelector(array('Details', 'Variations', 'ShippingCosts'));
+                $call->setItemID(321632064639)
+                    ->setIncludeSelector(array('Details', 'Variations'));
                 break;
             case 'GetUserProfile':
                 $call->setUserID('yakutskiy')
@@ -133,9 +133,10 @@ class CallController extends Controller
                     ->setPaginationInput(array('entriesPerPage' => 3));
                 break;
             case 'findItemsByImage':
-                $call->setCategoryId(array(24087))
-                    ->setOutputSelector(array('GalleryInfo'))
-                    ->setItemId(221342131423);
+                $call
+                    ->setItemId(261713305324)
+                    ->setCategoryId(array(4251))
+                    ->setOutputSelector(array('GalleryInfo'));
                 break;
             case 'findItemsByKeywords':
                 $call->setKeywords('bagpipes')
@@ -152,14 +153,8 @@ class CallController extends Controller
                     ->setPaginationInput(array('entriesPerPage' => 2));
                 break;
             case 'findItemsIneBayStores':
-                $call->setKeywords('harry potter')
-                    ->setStoreName('HKpowerstore')
-                    ->setItemFilter(
-                        array(
-                            array('name' => 'MinPrice', 'values' => array('1.00')),
-                            array('name' => 'MaxPrice', 'values' => array('25.00')),
-                        )
-                    )
+                $call->setKeywords('iphone')
+                    ->setStoreName('rick1982rickh')
                     ->setPaginationInput(array('entriesPerPage' => 2));
                 break;
             case 'getHistograms':

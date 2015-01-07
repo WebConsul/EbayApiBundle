@@ -16,7 +16,7 @@ class BaseShoppingCall extends BaseCall
     const URL_SANDBOX = 'http://open.api.sandbox.ebay.com/shopping?';
     const URL_PRODUCT = 'http://open.api.ebay.com/shopping?';
     const XMLNS = 'urn:ebay:apis:eBLBaseComponents';
-    const API_VERSION = 903;
+    const API_VERSION = 897;
 
     protected $standardInputFields = array('MessageID');
     protected $messageID;
@@ -33,7 +33,7 @@ class BaseShoppingCall extends BaseCall
     {
         $keys = $this->getKeys();
         $this->headers = array(
-            'X-EBAY-API-CALL-NAME:' . self::$callName,
+            'X-EBAY-API-CALL-NAME:' . $this->getCallName(),
             'X-EBAY-API-SITE-ID:' . $this->siteId,
             // Site 0 is for US
             'X-EBAY-API-APP-ID:' . $keys['app_id'],

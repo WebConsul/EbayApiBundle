@@ -5,7 +5,7 @@
 
 namespace WebConsul\EbayApiBundle\Call\Finding;
 
-class findItemsByImageCall extends BaseFindingCall
+class FindItemsByImageCall extends BaseFindingCall
 {
     /** @var array */
     private $categoryId = array();
@@ -25,13 +25,13 @@ class findItemsByImageCall extends BaseFindingCall
      */
     public function getInput()
     {
+        if ($this->itemId) {
+            $this->input .= '<itemId>' . $this->itemId . '</itemId>' . "\n";
+        }
         if (!empty($this->categoryId)) {
             foreach ($this->categoryId as $category) {
                 $this->input .= '<categoryId>' . $category . '</categoryId>' . "\n";
             }
-        }
-        if ($this->itemId) {
-            $this->input .= '<itemId>' . $this->itemId . '</itemId>' . "\n";
         }
         if (!empty($this->aspectFilter)) {
             $this->input .= $this->performAspectFilter();
