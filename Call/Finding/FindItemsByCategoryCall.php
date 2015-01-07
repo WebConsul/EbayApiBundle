@@ -31,9 +31,6 @@ class FindItemsByCategoryCall extends BaseFindingCall
         if (!empty($this->aspectFilter)) {
             $this->input .= $this->performAspectFilter();
         }
-        if (!empty($this->domainFilter)) {
-            $this->input .= $this->performDomainFilter();
-        }
         if (!empty($this->itemFilter)) {
             $this->input .= $this->performItemFilter();
         }

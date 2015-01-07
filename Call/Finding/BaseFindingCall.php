@@ -14,35 +14,30 @@ class BaseFindingCall extends BaseCall
     const URL_SANDBOX = 'http://svcs.sandbox.ebay.com/services/search/FindingService/v1';
     const URL_PRODUCT = 'http://svcs.ebay.com/services/search/FindingService/v1';
     const XMLNS = 'http://www.ebay.com/marketplace/search/v1/services';
+    const API_VERSION = '1.13.0';
 
     /** @var array */
-    protected $aspectFilter = array();
+    protected $aspectFilter = [];
     /** @var array */
-    protected $domainFilter = array();
-    /** @var array */
-    protected $itemFilter = array();
+    protected $itemFilter = [];
 
     /** @var string */
     protected $sortOrder;
     /** @var array */
-    protected $paginationInput = array();
+    protected $paginationInput = [];
     /** @var array */
-    protected $standardInputFields = array();
+    protected $standardInputFields = [];
     /** @var  string */
     protected $buyerPostalCode;
-    /** @var array */
-    private $keys = array();
-    /** @var string */
-    private $version = '1.12.0';
+
     /** @var string */
     private $globalId = 'EBAY-US';
     /** @var array */
-    private $affiliate = array();
+    private $affiliate = [];
 
     public function __construct(array $parameters)
     {
         parent::__construct($parameters);
-        $this->keys = self::$parameters['application_keys'];
     }
 
     /**
@@ -55,7 +50,7 @@ class BaseFindingCall extends BaseCall
             'X-EBAY-SOA-OPERATION-NAME:' . parent::$callName,
             'X-EBAY-SOA-GLOBAL-ID:' . $this->globalId,
             'X-EBAY-SOA-SECURITY-APPNAME:' . $keys['app_id'],
-            'X-EBAY-SOA-SERVICE-VERSION:' . $this->getVersion(),
+            'X-EBAY-SOA-SERVICE-VERSION:' . self::API_VERSION,
             'X-EBAY-SOA-REQUEST-DATA-FORMAT:XML',
             // for a POST request, the response by default is in the same format as the request
             'Content-Type:text/xml;charset=utf-8',
@@ -86,25 +81,6 @@ class BaseFindingCall extends BaseCall
     /**
      * @return array
      */
-    public function getDomainFilter()
-    {
-        return $this->domainFilter;
-    }
-
-    /**
-     * @param array $domainFilter
-     * @return $this
-     */
-    public function setDomainFilter($domainFilter)
-    {
-        $this->domainFilter = $domainFilter;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
     public function getItemFilter()
     {
         return $this->itemFilter;
@@ -117,25 +93,6 @@ class BaseFindingCall extends BaseCall
     public function setItemFilter($itemFilter)
     {
         $this->itemFilter = $itemFilter;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getVersion()
-    {
-        return $this->version;
-    }
-
-    /**
-     * @param string $version
-     * @return $this
-     */
-    public function setVersion($version)
-    {
-        $this->version = $version;
 
         return $this;
     }
@@ -284,20 +241,6 @@ class BaseFindingCall extends BaseCall
         return $aspectFilter;
     }
 
-    protected function performDomainFilter()
-    {
-        $domainFilter = '';
-        foreach ($this->domainFilter as $domain => $domainName) {
-            $domainFilter .= '<domainFilter>' . "\n";
-            foreach ($domainName as $name) {
-                $domainFilter .= "\t" . '<domainName>' . $name . '</domainName>' . "\n";
-            }
-            $domainFilter .= '</domainFilter>' . "\n";
-        }
-
-        return $domainFilter;
-    }
-
     protected function performItemFilter()
     {
         $itemFilter = '';
@@ -319,17 +262,4 @@ class BaseFindingCall extends BaseCall
         return $itemFilter;
     }
 
-    /**
-     * get application_keys for current mode ('sandbox' or 'production')
-     * @return array
-     */
-    private function getKeys()
-    {
-        if ($this->mode === parent::MODE_PRODUCT) {
-            return $this->keys['production'];
-        } else {
-            return $this->keys['sandbox'];
-        }
-    }
-
-} 
+}

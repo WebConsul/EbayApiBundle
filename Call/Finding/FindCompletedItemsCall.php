@@ -8,21 +8,16 @@ namespace WebConsul\EbayApiBundle\Call\Finding;
 class FindCompletedItemsCall extends BaseFindingCall
 {
     /** @var array */
-    private $categoryId = array();
+    private $categoryId = [];
     /** @var array */
     private $keywords;
     /** @var array */
-    private $outputSelector = array();
+    private $outputSelector = [];
     /** @var  string */
     private $productId;
     /** @var  string */
     private $productIdType;
-    public $standardInputFields = array(
-        'affiliate',
-        'buyerPostalCode',
-        'paginationInput',
-        'sortOrder',
-    );
+    public $standardInputFields = ['affiliate', 'buyerPostalCode', 'paginationInput', 'sortOrder',];
 
     /**
      * @return string
@@ -39,9 +34,6 @@ class FindCompletedItemsCall extends BaseFindingCall
         }
         if (!empty($this->aspectFilter)) {
             $this->input .= $this->performAspectFilter();
-        }
-        if (!empty($this->domainFilter)) {
-            $this->input .= $this->performDomainFilter();
         }
         if (!empty($this->itemFilter)) {
             $this->input .= $this->performItemFilter();
@@ -152,6 +144,4 @@ class FindCompletedItemsCall extends BaseFindingCall
 
         return $this;
     }
-
-
 }

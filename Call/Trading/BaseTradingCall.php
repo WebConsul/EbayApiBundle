@@ -17,6 +17,7 @@ class BaseTradingCall extends BaseCall
     const URL_SANDBOX = 'https://api.sandbox.ebay.com/ws/api.dll';
     const URL_PRODUCT = 'https://api.ebay.com/ws/api.dll';
     const XMLNS = 'urn:ebay:apis:eBLBaseComponents';
+    const API_VERSION = 903;
 
     /**
      * @link http://developer.ebay.com/DevZone/xml/docs/Reference/ebay/types/DetailLevelCodeType.html
@@ -28,13 +29,31 @@ class BaseTradingCall extends BaseCall
     protected $outputSelector = array();
     protected $warningLevel;
 
-    private $keys = array();
-    private $version = 851;
-
     public function __construct(array $parameters)
     {
         parent::__construct($parameters);
-        $this->keys = self::$parameters['application_keys'];
+    }
+
+    /**
+     * @return $this
+     */
+    public function setHeaders()
+    {
+        $keys = $this->getKeys();
+        $this->headers = array(
+            'X-EBAY-API-CALL-NAME:' . self::$callName,
+            'X-EBAY-API-SITEID:' . $this->siteId,
+            // Site 0 is for US
+            'X-EBAY-API-APP-NAME:' . $keys['app_id'],
+            'X-EBAY-API-DEV-NAME:' . $keys['dev_id'],
+            'X-EBAY-API-CERT-NAME:' . $keys['cert_id'],
+            'X-EBAY-API-COMPATIBILITY-LEVEL:' . self::API_VERSION,
+            'X-EBAY-API-REQUEST-ENCODING:XML',
+            // for a POST request, the response by default is in the same format as the request
+            'Content-Type:text/xml;charset=utf-8',
+        );
+
+        return $this;
     }
 
     /**
@@ -113,24 +132,6 @@ class BaseTradingCall extends BaseCall
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getVersion()
-    {
-        return $this->version;
-    }
-
-    /**
-     * @param string $version
-     * @return $this
-     */
-    public function setVersion($version)
-    {
-        $this->version = $version;
-
-        return $this;
-    }
 
     /**
      * @return string
@@ -151,40 +152,4 @@ class BaseTradingCall extends BaseCall
         return $this;
     }
 
-
-    /**
-     * @return $this
-     */
-    public function setHeaders()
-    {
-        $keys = $this->getKeys();
-        $this->headers = array(
-            'X-EBAY-API-CALL-NAME:' . self::$callName,
-            'X-EBAY-API-SITEID:' . $this->siteId,
-            // Site 0 is for US
-            'X-EBAY-API-APP-NAME:' . $keys['app_id'],
-            'X-EBAY-API-DEV-NAME:' . $keys['dev_id'],
-            'X-EBAY-API-CERT-NAME:' . $keys['cert_id'],
-            'X-EBAY-API-COMPATIBILITY-LEVEL:' . $this->getVersion(),
-            'X-EBAY-API-REQUEST-ENCODING:XML',
-            // for a POST request, the response by default is in the same format as the request
-            'Content-Type:text/xml;charset=utf-8',
-        );
-
-        return $this;
-    }
-
-    /**
-     * get application_keys for current mode ('sandbox' or 'production')
-     * @return array
-     */
-    private function getKeys()
-    {
-        if ($this->mode === parent::MODE_PRODUCT) {
-            return $this->keys['production'];
-        } else {
-            return $this->keys['sandbox'];
-        }
-    }
-
-} 
+}

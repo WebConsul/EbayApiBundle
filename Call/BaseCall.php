@@ -20,10 +20,12 @@ class BaseCall
     static $callName;
 
 
-    protected $headers = array();
+    protected $headers = [];
     protected $siteId = 0; // US by default
     protected $mode = 0; // Sandbox by default
+    protected $responseFormat = 'XML';
     protected $input;
+    protected $keys = [];
 
     private $requestUrl;
     private $postFields;
@@ -32,11 +34,12 @@ class BaseCall
     public function __construct(array $parameters)
     {
         self::$parameters = $parameters;
+        $this->keys = self::$parameters['application_keys'];
     }
 
     /**
-     * @param $apiName (e.g. Trading, Finding, etc.)
-     * @param $callName
+     * @param string $apiName (e.g. Trading, Finding, etc.)
+     * @param string $callName
      * @return object
      */
     static function getInstance($apiName, $callName)
@@ -80,6 +83,17 @@ class BaseCall
         return $this;
     }
 
+    /**
+     * @param string $format
+     * @return $this
+     */
+    public function setResponseFormat($format)
+    {
+        $this->responseFormat = $format;
+
+        return $this;
+    }
+
     public function getResponse()
     {
         $this->setHeaders();
@@ -90,6 +104,9 @@ class BaseCall
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->getHeaders()); //set headers using the above array of headers
         curl_setopt($ch, CURLOPT_POSTFIELDS, $this->getPostFields());
+        if (isset(self::$parameters['timeout'])) {
+            curl_setopt($ch, CURLOPT_TIMEOUT, self::$parameters['timeout']);
+        }
         $data = curl_exec($ch);
         curl_close($ch);
 
@@ -169,6 +186,19 @@ class BaseCall
     protected function getStandardInputFields()
     {
         return $this->standardInputFields;
+    }
+
+    /**
+     * get application_keys for current mode ('sandbox' or 'production')
+     * @return array
+     */
+    protected function getKeys()
+    {
+        if ($this->mode === self::MODE_PRODUCT) {
+            return $this->keys['production'];
+        } else {
+            return $this->keys['sandbox'];
+        }
     }
 
 }

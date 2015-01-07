@@ -16,7 +16,6 @@ class GetCategoriesCall extends BaseTradingCall
         'ErrorLanguage',
         'MessageID',
         'OutputSelector',
-        'Version',
         'WarningLevel'
     );
 
