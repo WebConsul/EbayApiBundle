@@ -50,9 +50,13 @@ $api = 'Shopping';
 $callName = 'FindPopularItems';
 $ebay = $this->get('web_consul_ebay_api.main');
 $call = $ebay->getInstance($api, $callName);
-$call->setMode($ebay::MODE_SANDBOX)
-     ->setMaxEntries(3)
+// Set SANDBOX or PRODUCT mode
+$call->setMode($ebay::MODE_SANDBOX);
+// set Call-specific and  Standard Input Fields
+$call
+     ->setMaxEntries(3) 
      ->setQueryKeywords('Harry Potter');
+// get response in XML format     
 $xmlOutput = $call->getResponse();
 ```
 
