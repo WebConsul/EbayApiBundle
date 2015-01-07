@@ -15,15 +15,16 @@ class BaseCall
     const MODE_SANDBOX = 0;
     const MODE_PRODUCT = 1;
 
-    static $apiName;
     static $parameters;
-    static $callName;
 
-
-    protected $headers = array();
+    protected $apiName;
+    protected $callName;
+    protected $headers = [];
     protected $siteId = 0; // US by default
     protected $mode = 0; // Sandbox by default
+    protected $responseFormat = 'XML';
     protected $input;
+    protected $keys = [];
 
     private $requestUrl;
     private $postFields;
@@ -32,20 +33,21 @@ class BaseCall
     public function __construct(array $parameters)
     {
         self::$parameters = $parameters;
+        $this->keys = self::$parameters['application_keys'];
     }
 
     /**
-     * @param $apiName (e.g. Trading, Finding, etc.)
-     * @param $callName
+     * @param string $apiName (e.g. Trading, Finding, etc.)
+     * @param string $callName
      * @return object
      */
-    static function getInstance($apiName, $callName)
+    public function getInstance($apiName, $callName)
     {
-        self::$apiName = $apiName;
-        self::$callName = $callName;
         $className = 'WebConsul\\EbayApiBundle\\Call\\' . $apiName . '\\' . ucfirst($callName) . 'Call';
+        $instance = new $className(self::$parameters);
+        $instance->setApiName($apiName)->setCallName($callName);
 
-        return new $className(self::$parameters);
+        return $instance;
     }
 
     /**
@@ -80,6 +82,17 @@ class BaseCall
         return $this;
     }
 
+    /**
+     * @param string $format
+     * @return $this
+     */
+    public function setResponseFormat($format)
+    {
+        $this->responseFormat = $format;
+
+        return $this;
+    }
+
     public function getResponse()
     {
         $this->setHeaders();
@@ -99,18 +112,48 @@ class BaseCall
         return $data;
     }
 
-    /**
-     * @return string
-     */
-    private function getRequestUrl()
+    public function getCallName()
     {
-        if ($this->mode === self::MODE_PRODUCT) {
-            $this->requestUrl = $this::URL_PRODUCT;
-        } else {
-            $this->requestUrl = $this::URL_SANDBOX;
+        return $this->callName;
+    }
+
+    protected function setCallName($callName)
+    {
+        $this->callName = $callName;
+
+        return $this;
+    }
+
+    public function getApiName()
+    {
+        return $this->apiName;
+    }
+
+    protected function setApiName($apiName)
+    {
+        $this->apiName = $apiName;
+
+        return $this;
+    }
+
+    public function getPostFields()
+    {
+        if (!$this->postFields) {
+            $this->postFields = $this->openRequest()
+                . $this->getInput()
+                . $this->appendStandardInputFields($this->getStandardInputFields())
+                . $this->closeRequest();
         }
 
-        return $this->requestUrl;
+        return $this->postFields;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getStandardInputFields()
+    {
+        return $this->standardInputFields;
     }
 
     /**
@@ -138,6 +181,34 @@ class BaseCall
         return $standardInput;
     }
 
+    /**
+     * get application_keys for current mode ('sandbox' or 'production')
+     * @return array
+     */
+    protected function getKeys()
+    {
+        if ($this->mode === self::MODE_PRODUCT) {
+            return $this->keys['production'];
+        } else {
+            return $this->keys['sandbox'];
+        }
+    }
+
+    /**
+     * @return string
+     */
+    private function getRequestUrl()
+    {
+        if ($this->mode === self::MODE_PRODUCT) {
+            $this->requestUrl = $this::URL_PRODUCT;
+        } else {
+            $this->requestUrl = $this::URL_SANDBOX;
+        }
+
+        return $this->requestUrl;
+    }
+
+
     private function openRequest()
     {
         return '<?xml version="1.0" encoding="utf-8"?>' . "\n"
@@ -149,29 +220,5 @@ class BaseCall
         return '</' . $this->getCallName() . 'Request>' . "\n";
     }
 
-    private function getCallName()
-    {
-        return self::$callName;
-    }
-
-    public function getPostFields()
-    {
-        if (!$this->postFields) {
-            $this->postFields = $this->openRequest()
-                . $this->getInput()
-                . $this->appendStandardInputFields($this->getStandardInputFields())
-                . $this->closeRequest();
-        }
-
-        return $this->postFields;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getStandardInputFields()
-    {
-        return $this->standardInputFields;
-    }
 
 }
