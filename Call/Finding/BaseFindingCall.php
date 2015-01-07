@@ -47,7 +47,7 @@ class BaseFindingCall extends BaseCall
     {
         $keys = $this->getKeys();
         $this->headers = array(
-            'X-EBAY-SOA-OPERATION-NAME:' . parent::$callName,
+            'X-EBAY-SOA-OPERATION-NAME:' . $this->getCallName(),
             'X-EBAY-SOA-GLOBAL-ID:' . $this->globalId,
             'X-EBAY-SOA-SECURITY-APPNAME:' . $keys['app_id'],
             'X-EBAY-SOA-SERVICE-VERSION:' . self::API_VERSION,

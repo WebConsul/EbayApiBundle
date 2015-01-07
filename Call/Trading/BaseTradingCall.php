@@ -41,7 +41,7 @@ class BaseTradingCall extends BaseCall
     {
         $keys = $this->getKeys();
         $this->headers = array(
-            'X-EBAY-API-CALL-NAME:' . self::$callName,
+            'X-EBAY-API-CALL-NAME:' . $this->getCallName(),
             'X-EBAY-API-SITEID:' . $this->siteId,
             // Site 0 is for US
             'X-EBAY-API-APP-NAME:' . $keys['app_id'],
