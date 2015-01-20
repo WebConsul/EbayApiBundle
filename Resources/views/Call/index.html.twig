@@ -6,7 +6,7 @@
         <h2>{{ api }}</h2>
         <ul>
             {% for callName in call %}
-                <li><a href="{{ path(callName) }}">{{ callName }}</a></li>
+                <li><a href="{{ path('callExample',{'api':api,'callName':callName}) }}">{{ callName }}</a></li>
             {% endfor %}
         </ul>
     {% endfor %}
