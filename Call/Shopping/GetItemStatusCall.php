@@ -5,24 +5,18 @@
 
 namespace WebConsul\EbayApiBundle\Call\Shopping;
 
+use JMS\Serializer\Annotation\XmlRoot;
+use JMS\Serializer\Annotation\XmlList;
+
+/**
+ * @XmlRoot("GetItemStatusRequest")
+ */
 class GetItemStatusCall extends BaseShoppingCall
 {
-    /** @var array */
-    private $itemID = array();
-
     /**
-     * @return string
+     * @XmlList(inline = true, entry = "itemID")
      */
-    public function getInput()
-    {
-        if (!empty($this->itemID)) {
-            foreach ($this->itemID as $item) {
-                $this->input .= '<ItemID>' . $item . '</ItemID>' . "\n";
-            }
-        }
-
-        return $this->input;
-    }
+    private $itemID;
 
     /**
      * @return array
@@ -42,6 +36,5 @@ class GetItemStatusCall extends BaseShoppingCall
 
         return $this;
     }
-
 
 }

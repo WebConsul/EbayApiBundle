@@ -5,39 +5,49 @@
 
 namespace WebConsul\EbayApiBundle\Call\Finding;
 
+use JMS\Serializer\Annotation\XmlRoot;
+use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\XmlList;
+use JMS\Serializer\Annotation\SerializedName;
+
+/**
+ * @XmlRoot("FindProductsRequest")
+ */
 class FindItemsByProductCall extends BaseFindingCall
 {
-    /** @var array */
-    private $outputSelector = array();
-    /** @var  string */
-    private $productId;
-    /** @var  string */
-    private $productIdType;
-    public $standardInputFields = array(
-        'affiliate',
-        'buyerPostalCode',
-        'paginationInput',
-        'sortOrder',
-    );
+    /**
+     * @XmlList(inline = true, entry = "itemFilter")
+     */
+    private $itemFilter;
 
     /**
-     * @return string
+     * @XmlList(inline = true, entry = "outputSelector")
      */
-    public function getInput()
-    {
-        if (!empty($this->itemFilter)) {
-            $this->input .= $this->performItemFilter();
-        }
-        if (!empty($this->outputSelector)) {
-            foreach ($this->outputSelector as $outputSelector) {
-                $this->input .= '<outputSelector>' . $outputSelector . '</outputSelector>' . "\n";
-            }
-        }
-        if ($this->productId && $this->productIdType) {
-            $this->input .= '<productId type="' . $this->productIdType . '">' . $this->productId . '</productId>' . "\n";
-        }
+    private $outputSelector;
 
-        return $this->input;
+    /**
+     * @Type("WebConsul\EbayApiBundle\Type\ProductID")
+     * @SerializedName("productId")
+     */
+    private $productId;
+
+    /**
+     * @return array
+     */
+    public function getItemFilter()
+    {
+        return $this->itemFilter;
+    }
+
+    /**
+     * @param array $itemFilter
+     * @return $this
+     */
+    public function setItemFilter($itemFilter)
+    {
+        $this->itemFilter = $itemFilter;
+
+        return $this;
     }
 
     /**
@@ -74,25 +84,6 @@ class FindItemsByProductCall extends BaseFindingCall
     public function setProductId($productId)
     {
         $this->productId = $productId;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getProductIdType()
-    {
-        return $this->productIdType;
-    }
-
-    /**
-     * @param string $productIdType
-     * @return $this
-     */
-    public function setProductIdType($productIdType)
-    {
-        $this->productIdType = $productIdType;
 
         return $this;
     }

@@ -1,9 +1,16 @@
 parameters:
     web_consul_ebay_api.main.class: WebConsul\EbayApiBundle\Call\BaseCall
+    web_consul_ebay_api.make_call.class: WebConsul\EbayApiBundle\Service\MakeCallService
 
 services:
     web_consul_ebay_api.main:
         class: %web_consul_ebay_api.main.class%
         arguments:
           parameters: %web_consul_ebay_api%
- #       arguments: [@service_id, "plain_value", %parameter%]
+    web_consul_ebay_api.make_call:
+        class: %web_consul_ebay_api.make_call.class%
+        arguments:
+          serializer: @jms_serializer
+#        arguments:
+#         parameters: %web_consul_ebay_api%
+#       arguments: [@service_id, "plain_value", %parameter%]

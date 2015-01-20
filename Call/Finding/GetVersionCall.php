@@ -5,14 +5,11 @@
 
 namespace WebConsul\EbayApiBundle\Call\Finding;
 
+use JMS\Serializer\Annotation\XmlRoot;
+
+/**
+ * @XmlRoot("GetVersionRequest")
+ */
 class GetVersionCall extends BaseFindingCall
 {
-    /**
-     * @return string
-     */
-    public function getInput()
-    {
-        return '';
-    }
-
 }

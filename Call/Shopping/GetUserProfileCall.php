@@ -5,28 +5,44 @@
 
 namespace WebConsul\EbayApiBundle\Call\Shopping;
 
+use JMS\Serializer\Annotation\XmlRoot;
+use JMS\Serializer\Annotation\SerializedName;
+
+/**
+ * @XmlRoot("GetUserProfileRequest")
+ */
 class GetUserProfileCall extends BaseShoppingCall
 {
-    /** @var array */
-    private $includeSelector = array();
-    /** @var  string */
+    /**
+     * @var string
+     * @SerializedName("IncludeSelector")
+     */
+    private $includeSelector;
+
+    /**
+     * @var  string
+     * @SerializedName("UserID")
+     */
     private $userID;
 
     /**
      * @return string
      */
-    public function getInput()
+    public function getIncludeSelector()
     {
-        if (!empty($this->includeSelector)) {
-            $this->input .= '<IncludeSelector>' . implode(',', $this->includeSelector) . '</IncludeSelector>' . "\n";
-        }
-        if ($this->userID) {
-            $this->input .= '<UserID>' . $this->userID . '</UserID>' . "\n";
-        }
-
-        return $this->input;
+        return $this->includeSelector;
     }
 
+    /**
+     * @param string $includeSelector
+     * @return $this
+     */
+    public function setIncludeSelector($includeSelector)
+    {
+        $this->includeSelector = $includeSelector;
+
+        return $this;
+    }
 
     /**
      * @return string
@@ -47,23 +63,5 @@ class GetUserProfileCall extends BaseShoppingCall
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getIncludeSelector()
-    {
-        return $this->includeSelector;
-    }
-
-    /**
-     * @param array $includeSelector
-     * @return $this
-     */
-    public function setIncludeSelector($includeSelector)
-    {
-        $this->includeSelector = $includeSelector;
-
-        return $this;
-    }
 
 }

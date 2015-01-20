@@ -5,22 +5,19 @@
 
 namespace WebConsul\EbayApiBundle\Call\Finding;
 
+use JMS\Serializer\Annotation\XmlRoot;
+use JMS\Serializer\Annotation\SerializedName;
+
+/**
+ * @XmlRoot("GetSearchKeywordsRecommendationRequest")
+ */
 class GetSearchKeywordsRecommendationCall extends BaseFindingCall
 {
-    /** @var string */
-    private $keywords;
-
     /**
-     * @return string
+     * @var string
+     * @SerializedName("keywords")
      */
-    public function getInput()
-    {
-        if ($this->keywords) {
-            $this->input .= '<keywords>' . $this->keywords . '</keywords>' . "\n";
-        }
-
-        return $this->input;
-    }
+    private $keywords;
 
     /**
      * @return string
@@ -40,6 +37,5 @@ class GetSearchKeywordsRecommendationCall extends BaseFindingCall
 
         return $this;
     }
-
 
 }

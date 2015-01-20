@@ -13,16 +13,17 @@ API Reference (supporting calls)
 --------------------------------
 
 * Shopping API (version 897)
-    *  FindPopularItems
-    *  FindPopularSearches
-    *  FindProducts
-    *  FindReviewsAndGuides
-    *  GetCategoryInfo
-    *  GeteBayTime
-    *  GetItemStatus
-    *  GetMultipleItems
-    *  GetShippingCosts
-    *  GetSingleItem
+    * FindHalfProducts
+    * FindPopularItems
+    * FindPopularSearches
+    * FindProducts
+    * FindReviewsAndGuides
+    * GetCategoryInfo
+    * GeteBayTime
+    * GetItemStatus
+    * GetMultipleItems
+    * GetShippingCosts
+    * GetSingleItem
     * GetUserProfile
 
 * Finding API (version 1.13.0)    
@@ -35,6 +36,7 @@ API Reference (supporting calls)
     * findItemsIneBayStores
     * getHistograms
     * getSearchKeywordsRecommendation
+    * getVersion
 
 * Trading API (version 903)
     * GetCategories
@@ -47,17 +49,21 @@ Simple example
 
 ```php
 $api = 'Shopping';
-$callName = 'FindPopularItems';
+$callName = 'GetSingleItem';
 $ebay = $this->get('web_consul_ebay_api.main');
-$call = $ebay->getInstance($api, $callName);
-// Set SANDBOX or PRODUCT mode
-$call->setMode($ebay::MODE_SANDBOX);
+$call = $ebay->getInstance('Shopping', 'GetSingleItem', $ebay::MODE_PRODUCT);
+$variationSpecifics = [];
+$nameValueList = new NameValueList();
+$nameValueList->setName('Colour')->setValue(['RED']);
+$variationSpecifics[] = $nameValueList;
 // set Call-specific and  Standard Input Fields
 $call
-     ->setMaxEntries(3) 
-     ->setQueryKeywords('Harry Potter');
+     ->setItemID(151551119370)
+     ->setIncludeSelector('Details, Variations')
+     ->setVariationSpecifics($variationSpecifics);
 // get response in XML format     
-$xmlOutput = $call->getResponse();
+$service = $this->get('web_consul_ebay_api.make_call');
+$output = $service->getResponse($call);
 ```
 
 Full documentation will be stored in the `Resources/doc/index.md`
@@ -69,7 +75,7 @@ Add EbayApiBundle in your composer.json:
 ```js
 {
     "require": {
-        "webconsul/ebay-api-bundle": "dev-master"
+        "webconsul/ebay-api-bundle": "0.2.*"
     }
 }
 ```

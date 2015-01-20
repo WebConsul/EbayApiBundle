@@ -5,47 +5,48 @@
 
 namespace WebConsul\EbayApiBundle\Call\Shopping;
 
+use JMS\Serializer\Annotation\XmlRoot;
+use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\XmlList;
+use JMS\Serializer\Annotation\SerializedName;
+
+/**
+ * @XmlRoot("FindPopularSearchesRequest")
+ */
 class FindPopularSearchesCall extends BaseShoppingCall
 {
-    /** @var array */
-    private $categoryID = array();
-    /** @var bool */
-    private $includeChildCategories;
-    /** @var  int */
-    private $maxKeywords;
-    /** @var  int */
-    private $maxResultsPerPage;
-    /** @var  int */
-    private $pageNumber;
-    /** @var  string */
-    private $queryKeywords;
+    /**
+     * @XmlList(inline = true, entry = "CategoryID")
+     */
+    private $categoryID;
 
     /**
-     * @return mixed
+     * @SerializedName("IncludeChildCategories")
      */
-    public function getInput()
-    {
-        if (!empty($this->categoryID)) {
-            $this->input .= '<CategoryID>' . implode(',', $this->categoryID) . '</CategoryID>' . "\n";
-        }
-        if ($this->includeChildCategories) {
-            $this->input .= '<IncludeChildCategories>' . $this->includeChildCategories . '</IncludeChildCategories>' . "\n";
-        }
-        if ($this->maxKeywords > 0) {
-            $this->input .= '<MaxKeywords>' . $this->maxKeywords . '</MaxKeywords>' . "\n";
-        }
-        if ($this->maxResultsPerPage > 0) {
-            $this->input .= '<MaxResultsPerPage>' . $this->maxResultsPerPage . '</MaxResultsPerPage>' . "\n";
-        }
-        if ($this->pageNumber > 0) {
-            $this->input .= '<PageNumber>' . $this->pageNumber . '</PageNumber>' . "\n";
-        }
-        if ($this->queryKeywords) {
-            $this->input .= '<QueryKeywords>' . $this->queryKeywords . '</QueryKeywords>' . "\n";
-        }
+    private $includeChildCategories;
 
-        return $this->input;
-    }
+    /**
+     * @var  integer
+     * @SerializedName("MaxKeywords")
+     */
+    private $maxKeywords;
+
+    /**
+     * @var  integer
+     * @SerializedName("MaxResultsPerPage")
+     */
+    private $maxResultsPerPage;
+
+    /**
+     * @var  integer
+     * @SerializedName("PageNumber")
+     */
+    private $pageNumber;
+
+    /**
+     * @XmlList(inline = true, entry = "QueryKeywords")
+     */
+    private $queryKeywords;
 
     /**
      * @return array

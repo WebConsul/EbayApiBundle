@@ -5,44 +5,36 @@
 
 namespace WebConsul\EbayApiBundle\Call\Trading;
 
+use JMS\Serializer\Annotation\XmlRoot;
+use JMS\Serializer\Annotation\XmlList;
+use JMS\Serializer\Annotation\SerializedName;
+
+/**
+ * @XmlRoot("GetCategoriesRequest")
+ */
 class GetCategoriesCall extends BaseTradingCall
 {
-    private $categoryParent = array();
-    private $categorySiteID;
-    private $levelLimit;
-    private $viewAllNodes;
-    public $standardInputFields = array(
-        'DetailLevel',
-        'ErrorLanguage',
-        'MessageID',
-        'OutputSelector',
-        'WarningLevel'
-    );
-
+    /**
+     * @XmlList(inline = true, entry = "CategoryParent")
+     */
+    private $categoryParent;
 
     /**
-     * @return mixed
+     * @var string
+     * @SerializedName("CategorySiteID")
      */
-    public function getInput()
-    {
-        $this->input .= '<RequesterCredentials><eBayAuthToken>' . parent::$parameters['auth_token'] . '</eBayAuthToken></RequesterCredentials>' . "\n";
-        if (!empty($this->categoryParent)) {
-            foreach ($this->categoryParent as $parent) {
-                $this->input .= '<CategoryParent>' . $parent . '</CategoryParent>' . "\n";
-            }
-        }
-        if ($this->categorySiteID) {
-            $this->input .= '<CategorySiteID>' . $this->categorySiteID . '</CategorySiteID>' . "\n";
-        }
-        if ($this->levelLimit) {
-            $this->input .= '<LevelLimit>' . $this->levelLimit . '</LevelLimit>' . "\n";
-        }
-        if ($this->viewAllNodes) {
-            $this->input .= '<ViewAllNodes>' . $this->viewAllNodes . '</ViewAllNodes>' . "\n";
-        }
+    private $categorySiteID;
 
-        return $this->input;
-    }
+    /**
+     * @var integer
+     * @SerializedName("LevelLimit")
+     */
+    private $levelLimit;
+
+    /** @var boolean
+     * @SerializedName("ViewAllNodes")
+     */
+    private $viewAllNodes;
 
 
     /**
