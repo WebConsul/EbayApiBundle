@@ -20,12 +20,6 @@ class GetCategoryInfoCall extends BaseShoppingCall
     private $categoryID;
 
     /**
-     * @var  string
-     * @SerializedName(value="IncludeSelector")
-     */
-    private $includeSelector;
-
-    /**
      * @return string
      */
     public function getCategoryID()
@@ -40,25 +34,6 @@ class GetCategoryInfoCall extends BaseShoppingCall
     public function setCategoryID($categoryID)
     {
         $this->categoryID = $categoryID;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIncludeSelector()
-    {
-        return $this->includeSelector;
-    }
-
-    /**
-     * @param string $includeSelector
-     * @return $this
-     */
-    public function setIncludeSelector($includeSelector)
-    {
-        $this->includeSelector = $includeSelector;
 
         return $this;
     }

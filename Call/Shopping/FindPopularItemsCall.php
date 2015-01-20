@@ -25,12 +25,6 @@ class FindPopularItemsCall extends BaseShoppingCall
     private $categoryIDExclude;
 
     /**
-     * @var  integer
-     * @SerializedName("MaxEntries")
-     */
-    private $maxEntries;
-
-    /**
      * @var  string
      * @SerializedName("QueryKeywords")
      */
@@ -71,25 +65,6 @@ class FindPopularItemsCall extends BaseShoppingCall
     public function setCategoryIDExclude(array $categoryIDExclude)
     {
         $this->categoryIDExclude = $categoryIDExclude;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMaxEntries()
-    {
-        return $this->maxEntries;
-    }
-
-    /**
-     * @param int $maxEntries
-     * @return $this
-     */
-    public function setMaxEntries($maxEntries)
-    {
-        $this->maxEntries = $maxEntries;
 
         return $this;
     }

@@ -6,68 +6,20 @@
 namespace WebConsul\EbayApiBundle\Call\Finding;
 
 use JMS\Serializer\Annotation\XmlRoot;
-use JMS\Serializer\Annotation\Type;
-use JMS\Serializer\Annotation\XmlList;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\Type;
 
 /**
  * @XmlRoot("FindProductsRequest")
  */
 class FindItemsByProductCall extends BaseFindingCall
 {
-    /**
-     * @XmlList(inline = true, entry = "itemFilter")
-     */
-    private $itemFilter;
-
-    /**
-     * @XmlList(inline = true, entry = "outputSelector")
-     */
-    private $outputSelector;
 
     /**
      * @Type("WebConsul\EbayApiBundle\Type\ProductID")
      * @SerializedName("productId")
      */
     private $productId;
-
-    /**
-     * @return array
-     */
-    public function getItemFilter()
-    {
-        return $this->itemFilter;
-    }
-
-    /**
-     * @param array $itemFilter
-     * @return $this
-     */
-    public function setItemFilter($itemFilter)
-    {
-        $this->itemFilter = $itemFilter;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getOutputSelector()
-    {
-        return $this->outputSelector;
-    }
-
-    /**
-     * @param array $outputSelector
-     * @return $this
-     */
-    public function setOutputSelector($outputSelector)
-    {
-        $this->outputSelector = $outputSelector;
-
-        return $this;
-    }
 
     /**
      * @return string

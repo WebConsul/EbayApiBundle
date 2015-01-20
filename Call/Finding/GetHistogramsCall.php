@@ -17,10 +17,10 @@ class GetHistogramsCall extends BaseFindingCall
      * @var string
      * @SerializedName("categoryId")
      */
-    private $categoryId;
+    protected $categoryId;
 
     /**
-     * @return array
+     * @return string
      */
     public function getCategoryId()
     {
@@ -28,7 +28,7 @@ class GetHistogramsCall extends BaseFindingCall
     }
 
     /**
-     * @param array $categoryId
+     * @param string $categoryId
      * @return $this
      */
     public function setCategoryId($categoryId)
