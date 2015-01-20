@@ -5,28 +5,42 @@
 
 namespace WebConsul\EbayApiBundle\Call\Shopping;
 
+use JMS\Serializer\Annotation\XmlRoot;
+use JMS\Serializer\Annotation\XmlList;
+use JMS\Serializer\Annotation\SerializedName;
+
+/**
+ * @XmlRoot("GetMultipleItemsRequest")
+ */
 class GetMultipleItemsCall extends BaseShoppingCall
 {
-    /** @var array */
-    private $includeSelector = array();
-    /** @var array */
-    private $itemID = array();
+    /**
+     * @var string
+     * @SerializedName("IncludeSelector")
+     */
+    private $includeSelector;
+    /**
+     * @XmlList(inline = true, entry = "ItemID")
+     */
+    private $itemID;
 
     /**
      * @return string
      */
-    public function getInput()
+    public function getIncludeSelector()
     {
-        if (!empty($this->includeSelector)) {
-            $this->input .= '<IncludeSelector>' . implode(',', $this->includeSelector) . '</IncludeSelector>' . "\n";
-        }
-        if (!empty($this->itemID)) {
-            foreach ($this->itemID as $item) {
-                $this->input .= '<ItemID>' . $item . '</ItemID>' . "\n";
-            }
-        }
+        return $this->includeSelector;
+    }
 
-        return $this->input;
+    /**
+     * @param string $includeSelector
+     * @return $this
+     */
+    public function setIncludeSelector($includeSelector)
+    {
+        $this->includeSelector = $includeSelector;
+
+        return $this;
     }
 
     /**
@@ -47,25 +61,4 @@ class GetMultipleItemsCall extends BaseShoppingCall
 
         return $this;
     }
-
-    /**
-     * @return array
-     */
-    public function getIncludeSelector()
-    {
-        return $this->includeSelector;
-    }
-
-    /**
-     * @param array $includeSelector
-     * @return $this
-     */
-    public function setIncludeSelector($includeSelector)
-    {
-        $this->includeSelector = $includeSelector;
-
-        return $this;
-    }
-
-
 }

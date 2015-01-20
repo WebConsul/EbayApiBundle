@@ -5,53 +5,64 @@
 
 namespace WebConsul\EbayApiBundle\Call\Finding;
 
+use JMS\Serializer\Annotation\XmlRoot;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\XmlList;
+
+/**
+ * @XmlRoot("FindItemsIneBayStoresRequest")
+ */
 class FindItemsIneBayStoresCall extends BaseFindingCall
 {
-    /** @var array */
-    private $categoryId = array();
-    /** @var array */
-    private $keywords;
-    /** @var array */
-    private $outputSelector = array();
-    /** @var  string */
-    private $storeName;
-    /** @var array */
-    public $standardInputFields = array(
-        'affiliate',
-        'buyerPostalCode',
-        'paginationInput',
-        'sortOrder',
-    );
+    /**
+     * @XmlList(inline = true, entry = "aspectFilter")
+     */
+    private $aspectFilter;
 
     /**
-     * @return string
+     * @XmlList(inline = true, entry = "categoryId")
      */
-    public function getInput()
-    {
-        if (!empty($this->categoryId)) {
-            foreach ($this->categoryId as $category) {
-                $this->input .= '<categoryId>' . $category . '</categoryId>' . "\n";
-            }
-        }
-        if ($this->keywords) {
-            $this->input .= '<keywords>' . $this->keywords . '</keywords>' . "\n";
-        }
-        if (!empty($this->aspectFilter)) {
-            $this->input .= $this->performAspectFilter();
-        }
-        if (!empty($this->itemFilter)) {
-            $this->input .= $this->performItemFilter();
-        }
-        if (!empty($this->outputSelector)) {
-            foreach ($this->outputSelector as $outputSelector) {
-                $this->input .= '<outputSelector>' . $outputSelector . '</outputSelector>' . "\n";
-            }
-        }
-        if ($this->storeName) {
-            $this->input .= '<storeName>' . $this->storeName . '</storeName>' . "\n";
-        }
+    private $categoryId;
 
-        return $this->input;
+    /**
+     * @XmlList(inline = true, entry = "itemFilter")
+     */
+    private $itemFilter;
+
+    /**
+     * @var string
+     * @SerializedName("keywords")
+     */
+    private $keywords;
+
+    /**
+     * @XmlList(inline = true, entry = "outputSelector")
+     */
+    private $outputSelector;
+
+    /**
+     * @var  string
+     * @SerializedName("storeName")
+     */
+    private $storeName;
+
+    /**
+     * @return array
+     */
+    public function getAspectFilter()
+    {
+        return $this->aspectFilter;
+    }
+
+    /**
+     * @param array $aspectFilter
+     * @return $this
+     */
+    public function setAspectFilter($aspectFilter)
+    {
+        $this->aspectFilter = $aspectFilter;
+
+        return $this;
     }
 
     /**
@@ -69,6 +80,25 @@ class FindItemsIneBayStoresCall extends BaseFindingCall
     public function setCategoryId($categoryId)
     {
         $this->categoryId = $categoryId;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getItemFilter()
+    {
+        return $this->itemFilter;
+    }
+
+    /**
+     * @param array $itemFilter
+     * @return $this
+     */
+    public function setItemFilter($itemFilter)
+    {
+        $this->itemFilter = $itemFilter;
 
         return $this;
     }

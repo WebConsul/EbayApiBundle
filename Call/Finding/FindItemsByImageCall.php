@@ -5,47 +5,58 @@
 
 namespace WebConsul\EbayApiBundle\Call\Finding;
 
+use JMS\Serializer\Annotation\XmlRoot;
+use JMS\Serializer\Annotation\XmlList;
+use JMS\Serializer\Annotation\SerializedName;
+
+/**
+ * @XmlRoot("FindItemsByImageRequest")
+ */
 class FindItemsByImageCall extends BaseFindingCall
 {
-    /** @var array */
-    private $categoryId = array();
-    /** @var string */
-    private $itemId;
-    /** @var array */
-    private $outputSelector = array();
-
-    public $standardInputFields = array(
-        'affiliate',
-        'buyerPostalCode',
-        'paginationInput',
-    );
+    /**
+     * @XmlList(inline = true, entry = "aspectFilter")
+     */
+    private $aspectFilter;
 
     /**
-     * @return string
+     * @XmlList(inline = true, entry = "categoryId")
      */
-    public function getInput()
-    {
-        if ($this->itemId) {
-            $this->input .= '<itemId>' . $this->itemId . '</itemId>' . "\n";
-        }
-        if (!empty($this->categoryId)) {
-            foreach ($this->categoryId as $category) {
-                $this->input .= '<categoryId>' . $category . '</categoryId>' . "\n";
-            }
-        }
-        if (!empty($this->aspectFilter)) {
-            $this->input .= $this->performAspectFilter();
-        }
-        if (!empty($this->itemFilter)) {
-            $this->input .= $this->performItemFilter();
-        }
-        if (!empty($this->outputSelector)) {
-            foreach ($this->outputSelector as $outputSelector) {
-                $this->input .= '<outputSelector>' . $outputSelector . '</outputSelector>' . "\n";
-            }
-        }
+    private $categoryId;
 
-        return $this->input;
+    /**
+     * @XmlList(inline = true, entry = "itemFilter")
+     */
+    private $itemFilter;
+
+    /**
+     * @var string
+     * @SerializedName("itemId")
+     */
+    private $itemId;
+
+    /**
+     * @XmlList(inline = true, entry = "outputSelector")
+     */
+    private $outputSelector;
+
+    /**
+     * @return array
+     */
+    public function getAspectFilter()
+    {
+        return $this->aspectFilter;
+    }
+
+    /**
+     * @param array $aspectFilter
+     * @return $this
+     */
+    public function setAspectFilter($aspectFilter)
+    {
+        $this->aspectFilter = $aspectFilter;
+
+        return $this;
     }
 
     /**
@@ -70,18 +81,18 @@ class FindItemsByImageCall extends BaseFindingCall
     /**
      * @return array
      */
-    public function getOutputSelector()
+    public function getItemFilter()
     {
-        return $this->outputSelector;
+        return $this->itemFilter;
     }
 
     /**
-     * @param array $outputSelector
+     * @param array $itemFilter
      * @return $this
      */
-    public function setOutputSelector($outputSelector)
+    public function setItemFilter($itemFilter)
     {
-        $this->outputSelector = $outputSelector;
+        $this->itemFilter = $itemFilter;
 
         return $this;
     }
@@ -101,6 +112,25 @@ class FindItemsByImageCall extends BaseFindingCall
     public function setItemId($itemId)
     {
         $this->itemId = $itemId;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOutputSelector()
+    {
+        return $this->outputSelector;
+    }
+
+    /**
+     * @param array $outputSelector
+     * @return $this
+     */
+    public function setOutputSelector($outputSelector)
+    {
+        $this->outputSelector = $outputSelector;
 
         return $this;
     }

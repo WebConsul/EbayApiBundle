@@ -4,44 +4,43 @@
  */
 
 namespace WebConsul\EbayApiBundle\Call\Shopping;
-
+use JMS\Serializer\Annotation\XmlRoot;
+use JMS\Serializer\Annotation\SerializedName;
+/**
+ * @XmlRoot("GetShippingCostsRequest")
+ */
 class GetShippingCostsCall extends BaseShoppingCall
 {
-    /** @var  string */
+    /**
+     * @var string
+     * @SerializedName("DestinationCountryCode")
+     */
     private $destinationCountryCode;
-    /** @var  string */
-    private $destinationPostalCode;
-    /** @var  bool */
-    private $includeDetails;
-    /** @var string */
-    private $itemID;
-    /** @var  int */
-    private $quantitySold;
-
 
     /**
-     * @return string
+     * @var string
+     * @SerializedName("DestinationPostalCode")
      */
-    public function getInput()
-    {
-        if ($this->destinationCountryCode) {
-            $this->input .= '<DestinationCountryCode>' . $this->destinationCountryCode . '</DestinationCountryCode>' . "\n";
-        }
-        if ($this->destinationPostalCode) {
-            $this->input .= '<DestinationPostalCode>' . $this->destinationPostalCode . '</DestinationPostalCode>' . "\n";
-        }
-        if ($this->includeDetails) {
-            $this->input .= '<IncludeDetails>' . $this->includeDetails . '</IncludeDetails>' . "\n";
-        }
-        if ($this->itemID) {
-            $this->input .= '<ItemID>' . $this->itemID . '</ItemID>' . "\n";
-        }
-        if ($this->quantitySold > 0) {
-            $this->input .= '<QuantitySold>' . $this->quantitySold . '</QuantitySold>' . "\n";
-        }
+    private $destinationPostalCode;
 
-        return $this->input;
-    }
+    /**
+     * @var boolean
+     * @SerializedName("IncludeDetails")
+     */
+    private $includeDetails;
+
+    /**
+     * @var string
+     * @SerializedName("ItemID")
+     */
+    private $itemID;
+
+    /**
+     * @var integer
+     * @SerializedName("QuantitySold")
+     */
+    private $quantitySold;
+
 
     /**
      * @return string

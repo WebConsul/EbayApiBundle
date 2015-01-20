@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\CssSelector\CssSelector;
 use WebConsul\EbayApiBundle\Call\BaseCall;
+use WebConsul\EbayApiBundle\Type\RequesterCredentials;
 
 /**
  * Created by PhpStorm.
@@ -15,17 +16,25 @@ use WebConsul\EbayApiBundle\Call\BaseCall;
 class TradingApiCallsTest extends WebTestCase
 {
     const API = 'Trading';
+    private $service;
 
     public function testGetCategories()
     {
         $callName = 'GetCategories';
+        /** @var \WebConsul\EbayApiBundle\Call\Trading\GetCategoriesCall $call */
         $call = $this->init($callName);
+        $token = $call->parameters['auth_token'];
+        $requesterCredentials = new RequesterCredentials();
+        $requesterCredentials->setEBayAuthToken($token);
+
         $call
             ->setSiteID(15)
             ->setCategorySiteID(2)
-            ->setDetailLevel('ReturnAll')
+            ->setDetailLevel(['ReturnAll'])
             ->setLevelLimit(2)
-            ->setWarningLevel('High');
+            ->setWarningLevel('High')
+            ->setRequesterCredentials($requesterCredentials);
+
         $this->justDoIt($call);
     }
 
@@ -42,6 +51,7 @@ class TradingApiCallsTest extends WebTestCase
         $ebay = $container->get('web_consul_ebay_api.main');
         $call = $ebay->getInstance(self::API, $callName);
         $call->setMode($ebay::MODE_PRODUCT);
+        $this->service = $container->get('web_consul_ebay_api.make_call');
 
         return $call;
     }
@@ -51,7 +61,7 @@ class TradingApiCallsTest extends WebTestCase
      */
     private function justDoIt(BaseCall $call)
     {
-        $output = $call->getResponse();
+        $output = $this->service->getResponse($call);
         CssSelector::disableHtmlExtension();
         $crawler = new Crawler($output);
 

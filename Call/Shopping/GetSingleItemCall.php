@@ -5,46 +5,38 @@
 
 namespace WebConsul\EbayApiBundle\Call\Shopping;
 
+use JMS\Serializer\Annotation\XmlRoot;
+use JMS\Serializer\Annotation\XmlList;
+use JMS\Serializer\Annotation\SerializedName;
+
+/**
+ * @XmlRoot("GetSingleItemRequest")
+ */
 class GetSingleItemCall extends BaseShoppingCall
 {
-    /** @var array */
-    private $includeSelector = array();
-    /** @var string */
-    private $itemID;
-    /** @var  string */
-    private $variationSKU;
-    /** @var array */
-    private $nameValueList = array();
+    /**
+     * @var string
+     * @SerializedName("IncludeSelector")
+     */
+    private $includeSelector;
 
     /**
-     * @return string
+     * @var string
+     * @SerializedName("ItemID")
      */
-    public function getInput()
-    {
-        if (!empty($this->includeSelector)) {
-            $this->input .= '<IncludeSelector>' . implode(',', $this->includeSelector) . '</IncludeSelector>' . "\n";
-        }
-        if ($this->itemID) {
-            $this->input .= '<ItemID>' . $this->itemID . '</ItemID>' . "\n";
-        }
-        if ($this->variationSKU) {
-            $this->input .= '<VariationSKU>' . $this->variationSKU . '</VariationSKU>' . "\n";
-        }
-        if (!empty($this->nameValueList)) {
-            $this->input .= '<VariationSpecifics>' . "\n";
-            foreach ($this->nameValueList as $name => $valueList) {
-                $this->input .= "\t" . '<NameValueList>' . "\n";
-                $this->input .= "\t" . '<Name>' . $name . '</Name>' . "\n";
-                foreach ($valueList as $value) {
-                    $this->input .= "\t\t" . '<Value>' . $value . '</Value>' . "\n";
-                }
-                $this->input .= '</NameValueList>';
-            }
-            $this->input .= '<VariationSpecifics>';
-        }
+    private $itemID;
 
-        return $this->input;
-    }
+    /**
+     * @var string
+     * @SerializedName("VariationSKU")
+     */
+    private $variationSKU;
+
+    /**
+     * @XmlList(entry = "NameValueList")
+     * @SerializedName("VariationSpecifics")
+     */
+    private $variationSpecifics;
 
     /**
      * @return string
@@ -66,7 +58,7 @@ class GetSingleItemCall extends BaseShoppingCall
     }
 
     /**
-     * @return array
+     * @return string
      */
     public function getIncludeSelector()
     {
@@ -74,7 +66,7 @@ class GetSingleItemCall extends BaseShoppingCall
     }
 
     /**
-     * @param array $includeSelector
+     * @param string $includeSelector
      * @return $this
      */
     public function setIncludeSelector($includeSelector)
@@ -106,21 +98,20 @@ class GetSingleItemCall extends BaseShoppingCall
     /**
      * @return array
      */
-    public function getNameValueList()
+    public function getVariationSpecifics()
     {
-        return $this->nameValueList;
+        return $this->variationSpecifics;
     }
 
     /**
-     * @param array $nameValueList
+     * @param array $variationSpecifics
      * @return $this
      */
-    public function setNameValueList($nameValueList)
+    public function setVariationSpecifics(array $variationSpecifics)
     {
-        $this->nameValueList = $nameValueList;
+        $this->variationSpecifics = $variationSpecifics;
 
         return $this;
     }
-
 
 }

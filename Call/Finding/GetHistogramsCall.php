@@ -5,22 +5,19 @@
 
 namespace WebConsul\EbayApiBundle\Call\Finding;
 
+use JMS\Serializer\Annotation\XmlRoot;
+use JMS\Serializer\Annotation\SerializedName;
+
+/**
+ * @XmlRoot("GetHistogramsRequest")
+ */
 class GetHistogramsCall extends BaseFindingCall
 {
-    /** @var string */
-    private $categoryId;
-
     /**
-     * @return string
+     * @var string
+     * @SerializedName("categoryId")
      */
-    public function getInput()
-    {
-        if ($this->categoryId) {
-            $this->input .= '<categoryId>' . $this->categoryId . '</categoryId>' . "\n";
-        }
-
-        return $this->input;
-    }
+    private $categoryId;
 
     /**
      * @return array

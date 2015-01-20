@@ -12,31 +12,20 @@ use JMS\Serializer\Annotation\SerializedName;
 use WebConsul\EbayApiBundle\Type\ProductID;
 
 /**
- * @XmlRoot("FindProductsRequest")
+ * @XmlRoot("FindHalfProductsRequest")
  */
-class FindProductsCall extends BaseShoppingCall
+class FindHalfProductsCall extends BaseShoppingCall
 {
     /**
-     * @var boolean
+     * @var  boolean
      * @SerializedName("AvailableItemsOnly")
      */
     private $availableItemsOnly;
 
     /**
-     * @var string
-     * @SerializedName("CategoryID")
-     */
-    private $categoryID;
-
-    /**
      * @XmlList(inline = true, entry = "DomainName")
      */
     private $domainName;
-
-    /** @var  boolean
-     * @SerializedName("HideDuplicateItems")
-     */
-    private $hideDuplicateItems;
 
     /**
      * @var  string
@@ -50,8 +39,7 @@ class FindProductsCall extends BaseShoppingCall
      */
     private $maxEntries;
 
-    /**
-     * @var  integer
+    /** @var  integer
      * @SerializedName("PageNumber")
      */
     private $pageNumber;
@@ -74,29 +62,17 @@ class FindProductsCall extends BaseShoppingCall
      */
     private $queryKeywords;
 
+    /**
+     * @var  string
+     * @SerializedName("SellerID")
+     */
+    private $sellerID;
+
     /** @var  string
      * @SerializedName("sortOrder")
      */
     private $sortOrder;
 
-    /**
-     * @return string
-     */
-    public function getCategoryID()
-    {
-        return $this->categoryID;
-    }
-
-    /**
-     * @param string $categoryID
-     * @return $this
-     */
-    public function setCategoryID($categoryID)
-    {
-        $this->categoryID = $categoryID;
-
-        return $this;
-    }
 
     /**
      * @return int
@@ -170,25 +146,6 @@ class FindProductsCall extends BaseShoppingCall
     public function setDomainName($domainName)
     {
         $this->domainName = $domainName;
-
-        return $this;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function getHideDuplicateItems()
-    {
-        return $this->hideDuplicateItems;
-    }
-
-    /**
-     * @param boolean $hideDuplicateItems
-     * @return $this
-     */
-    public function setHideDuplicateItems($hideDuplicateItems)
-    {
-        $this->hideDuplicateItems = $hideDuplicateItems;
 
         return $this;
     }
@@ -284,6 +241,25 @@ class FindProductsCall extends BaseShoppingCall
     public function setSortOrder($sortOrder)
     {
         $this->sortOrder = $sortOrder;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSellerID()
+    {
+        return $this->sellerID;
+    }
+
+    /**
+     * @param string $sellerID
+     * @return $this
+     */
+    public function setSellerID($sellerID)
+    {
+        $this->sellerID = $sellerID;
 
         return $this;
     }

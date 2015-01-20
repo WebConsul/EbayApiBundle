@@ -5,49 +5,66 @@
 
 namespace WebConsul\EbayApiBundle\Call\Finding;
 
+use JMS\Serializer\Annotation\XmlRoot;
+use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\XmlList;
+use WebConsul\EbayApiBundle\Type\ProductID;
+
+/**
+ * @XmlRoot("FindCompletedItemsRequest")
+ */
 class FindCompletedItemsCall extends BaseFindingCall
 {
-    /** @var array */
-    private $categoryId = [];
-    /** @var array */
-    private $keywords;
-    /** @var array */
-    private $outputSelector = [];
-    /** @var  string */
-    private $productId;
-    /** @var  string */
-    private $productIdType;
-    public $standardInputFields = ['affiliate', 'buyerPostalCode', 'paginationInput', 'sortOrder',];
+    /**
+     * @XmlList(inline = true, entry = "aspectFilter")
+     */
+    private $aspectFilter;
 
     /**
-     * @return string
+     * @XmlList(inline = true, entry = "categoryId")
      */
-    public function getInput()
-    {
-        if (!empty($this->categoryId)) {
-            foreach ($this->categoryId as $category) {
-                $this->input .= '<categoryId>' . $category . '</categoryId>' . "\n";
-            }
-        }
-        if ($this->keywords) {
-            $this->input .= '<keywords>' . $this->keywords . '</keywords>' . "\n";
-        }
-        if (!empty($this->aspectFilter)) {
-            $this->input .= $this->performAspectFilter();
-        }
-        if (!empty($this->itemFilter)) {
-            $this->input .= $this->performItemFilter();
-        }
-        if (!empty($this->outputSelector)) {
-            foreach ($this->outputSelector as $outputSelector) {
-                $this->input .= '<outputSelector>' . $outputSelector . '</outputSelector>' . "\n";
-            }
-        }
-        if ($this->productId && $this->productIdType) {
-            $this->input .= '<productId type="' . $this->productIdType . '">' . $this->productId . '</productId>' . "\n";
-        }
+    private $categoryId;
 
-        return $this->input;
+    /**
+     * @XmlList(inline = true, entry = "itemFilter")
+     */
+    private $itemFilter;
+
+    /**
+     * @var string
+     * @SerializedName("keywords")
+     */
+    private $keywords;
+
+    /**
+     * @XmlList(inline = true, entry = "outputSelector")
+     */
+    private $outputSelector;
+
+    /**
+     * @Type("WebConsul\EbayApiBundle\Type\ProductID")
+     * @SerializedName("ProductId")
+     */
+    private $productId;
+
+    /**
+     * @return array
+     */
+    public function getAspectFilter()
+    {
+        return $this->aspectFilter;
+    }
+
+    /**
+     * @param array $aspectFilter
+     * @return $this
+     */
+    public function setAspectFilter($aspectFilter)
+    {
+        $this->aspectFilter = $aspectFilter;
+
+        return $this;
     }
 
     /**
@@ -65,6 +82,25 @@ class FindCompletedItemsCall extends BaseFindingCall
     public function setCategoryId($categoryId)
     {
         $this->categoryId = $categoryId;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getItemFilter()
+    {
+        return $this->itemFilter;
+    }
+
+    /**
+     * @param array $itemFilter
+     * @return $this
+     */
+    public function setItemFilter($itemFilter)
+    {
+        $this->itemFilter = $itemFilter;
 
         return $this;
     }
@@ -100,7 +136,7 @@ class FindCompletedItemsCall extends BaseFindingCall
      * @param array $outputSelector
      * @return $this
      */
-    public function setOutputSelector($outputSelector)
+    public function setOutputSelector(array $outputSelector)
     {
         $this->outputSelector = $outputSelector;
 
@@ -108,7 +144,7 @@ class FindCompletedItemsCall extends BaseFindingCall
     }
 
     /**
-     * @return string
+     * @return ProductID
      */
     public function getProductId()
     {
@@ -116,32 +152,14 @@ class FindCompletedItemsCall extends BaseFindingCall
     }
 
     /**
-     * @param string $productId
+     * @param ProductID $productId
      * @return $this
      */
-    public function setProductId($productId)
+    public function setProductId(ProductID $productId)
     {
         $this->productId = $productId;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getProductIdType()
-    {
-        return $this->productIdType;
-    }
-
-    /**
-     * @param string $productIdType
-     * @return $this
-     */
-    public function setProductIdType($productIdType)
-    {
-        $this->productIdType = $productIdType;
-
-        return $this;
-    }
 }
