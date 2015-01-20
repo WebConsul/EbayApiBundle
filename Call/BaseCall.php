@@ -24,7 +24,7 @@ class BaseCall
     protected $mode = 0; // Sandbox by default
     protected $responseFormat = 'XML';
     protected $keys = [];
-    protected $postFields;
+    protected $input;
 
 
     public function __construct(array $parameters)
@@ -140,15 +140,15 @@ class BaseCall
      * @param string $value
      * @return $this
      */
-    public function setPostFields($value)
+    public function setInput($value)
     {
-        $this->postFields = $value;
+        $this->input = $value;
 
         return $this;
     }
 
-    public function getPostFields()
+    public function getInput()
     {
-        return $this->postFields;
+        return $this->input;
     }
 }

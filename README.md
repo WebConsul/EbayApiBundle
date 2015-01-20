@@ -65,6 +65,17 @@ $call
 $service = $this->get('web_consul_ebay_api.make_call');
 $output = $service->getResponse($call);
 ```
+Typically, the query properties are set by the standard setter.
+For more complex structures and containers created special types:
+
+*  WebConsul\EbayApiBundle\Type
+    * Affiliate
+    * AspectFilter
+    * ItemFilter
+    * NameValueList
+    * PaginationInput
+    * ProductID
+    * RequesterCredentials
 
 Full documentation will be stored in the `Resources/doc/index.md`
 

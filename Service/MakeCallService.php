@@ -23,15 +23,15 @@ class MakeCallService
 
     public function getResponse(BaseCall $call)
     {
-        $postFields = $this->getPostFields($call);
-        $call->setPostFields($postFields);
+        $input = $this->getPostFields($call);
+        $call->setInput($input);
         $ch = curl_init($call->getRequestUrl());
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $call->getHeaders()); //set headers using the above array of headers
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $input);
         if (isset($call->parameters['timeout'])) {
             curl_setopt($ch, CURLOPT_TIMEOUT, $call->parameters['timeout']);
         }
