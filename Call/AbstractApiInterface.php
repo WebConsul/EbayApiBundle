@@ -1,5 +1,6 @@
 <?php
 namespace WebConsul\EbayApiBundle\Call;
+
 /**
  * Created by PhpStorm.
  * User: yakut

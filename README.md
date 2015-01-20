@@ -9,6 +9,8 @@ This project intends to create a simple wrapper around main eBay APIs:
 
 **Caution:** Calls for Trading API are in progress... Coming soon.
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/01150b13-24c6-44bc-8f27-ec61731e5c35/small.png)](https://insight.sensiolabs.com/projects/01150b13-24c6-44bc-8f27-ec61731e5c35)
+
 API Reference (supporting calls)
 --------------------------------
 
@@ -143,7 +145,8 @@ Open in your browser: `http://YOUR_HOST/callReference`.
 
 On that page you can see full list of the available API calls.
 ### Step 3: Change call parameters
-You can change parameters for API calls' examples. Just edit `testCallAction` in the `Controller/CallController`.
+You can change parameters for API calls' examples. 
+Just edit the appropriate action in the API controller (e.g. `findCompletedItemsAction` in the `WebConsul\EbayApiBundle\Controller\FindingController` etc).
 License
 -------
 This bundle is under the MIT license. See the complete license in the bundle:
