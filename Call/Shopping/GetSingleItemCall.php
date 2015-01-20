@@ -16,12 +16,6 @@ class GetSingleItemCall extends BaseShoppingCall
 {
     /**
      * @var string
-     * @SerializedName("IncludeSelector")
-     */
-    private $includeSelector;
-
-    /**
-     * @var string
      * @SerializedName("ItemID")
      */
     private $itemID;
@@ -53,25 +47,6 @@ class GetSingleItemCall extends BaseShoppingCall
     public function setItemID($itemID)
     {
         $this->itemID = $itemID;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIncludeSelector()
-    {
-        return $this->includeSelector;
-    }
-
-    /**
-     * @param string $includeSelector
-     * @return $this
-     */
-    public function setIncludeSelector($includeSelector)
-    {
-        $this->includeSelector = $includeSelector;
 
         return $this;
     }

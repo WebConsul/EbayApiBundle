@@ -37,12 +37,6 @@ class FindPopularSearchesCall extends BaseShoppingCall
     private $maxResultsPerPage;
 
     /**
-     * @var  integer
-     * @SerializedName("PageNumber")
-     */
-    private $pageNumber;
-
-    /**
      * @XmlList(inline = true, entry = "QueryKeywords")
      */
     private $queryKeywords;
@@ -119,25 +113,6 @@ class FindPopularSearchesCall extends BaseShoppingCall
     public function setMaxResultsPerPage($maxResultsPerPage)
     {
         $this->maxResultsPerPage = $maxResultsPerPage;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPageNumber()
-    {
-        return $this->pageNumber;
-    }
-
-    /**
-     * @param int $pageNumber
-     * @return $this
-     */
-    public function setPageNumber($pageNumber)
-    {
-        $this->pageNumber = $pageNumber;
 
         return $this;
     }

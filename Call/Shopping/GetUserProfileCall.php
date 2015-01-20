@@ -15,34 +15,9 @@ class GetUserProfileCall extends BaseShoppingCall
 {
     /**
      * @var string
-     * @SerializedName("IncludeSelector")
-     */
-    private $includeSelector;
-
-    /**
-     * @var  string
      * @SerializedName("UserID")
      */
     private $userID;
-
-    /**
-     * @return string
-     */
-    public function getIncludeSelector()
-    {
-        return $this->includeSelector;
-    }
-
-    /**
-     * @param string $includeSelector
-     * @return $this
-     */
-    public function setIncludeSelector($includeSelector)
-    {
-        $this->includeSelector = $includeSelector;
-
-        return $this;
-    }
 
     /**
      * @return string
