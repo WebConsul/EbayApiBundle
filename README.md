@@ -67,7 +67,7 @@ $call
 $service = $this->get('web_consul_ebay_api.make_call');
 $output = $service->getResponse($call);
 ```
-Typically, the query properties are set by the standard setter.
+Typically, the request properties are set by the standard setter.
 For more complex structures and containers created special types:
 
 *  WebConsul\EbayApiBundle\Type

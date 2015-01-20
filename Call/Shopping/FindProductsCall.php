@@ -6,7 +6,6 @@
 namespace WebConsul\EbayApiBundle\Call\Shopping;
 
 use JMS\Serializer\Annotation\XmlRoot;
-use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\XmlList;
 use JMS\Serializer\Annotation\SerializedName;
 use WebConsul\EbayApiBundle\Type\ProductID;
@@ -40,30 +39,6 @@ class FindProductsCall extends BaseShoppingCall
 
     /**
      * @var  string
-     * @SerializedName("IncludeSelector")
-     */
-    private $includeSelector;
-
-    /**
-     * @var  integer
-     * @SerializedName("MaxEntries")
-     */
-    private $maxEntries;
-
-    /**
-     * @var  integer
-     * @SerializedName("PageNumber")
-     */
-    private $pageNumber;
-
-    /**
-     * @Type("WebConsul\EbayApiBundle\Type\ProductID")
-     * @SerializedName("ProductID")
-     */
-    private $productID;
-
-    /**
-     * @var  string
      * @SerializedName("ProductSort")
      */
     private $productSort;
@@ -94,25 +69,6 @@ class FindProductsCall extends BaseShoppingCall
     public function setCategoryID($categoryID)
     {
         $this->categoryID = $categoryID;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPageNumber()
-    {
-        return $this->pageNumber;
-    }
-
-    /**
-     * @param int $pageNumber
-     * @return $this
-     */
-    public function setPageNumber($pageNumber)
-    {
-        $this->pageNumber = $pageNumber;
 
         return $this;
     }
@@ -189,63 +145,6 @@ class FindProductsCall extends BaseShoppingCall
     public function setHideDuplicateItems($hideDuplicateItems)
     {
         $this->hideDuplicateItems = $hideDuplicateItems;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIncludeSelector()
-    {
-        return $this->includeSelector;
-    }
-
-    /**
-     * @param string $includeSelector
-     * @return $this
-     */
-    public function setIncludeSelector($includeSelector)
-    {
-        $this->includeSelector = $includeSelector;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMaxEntries()
-    {
-        return $this->maxEntries;
-    }
-
-    /**
-     * @param int $maxEntries
-     * @return $this
-     */
-    public function setMaxEntries($maxEntries)
-    {
-        $this->maxEntries = $maxEntries;
-
-        return $this;
-    }
-
-    /**
-     * return WebConsul\EbayApiBundle\Type\ProductID
-     */
-    public function getProductID()
-    {
-        return $this->productID;
-    }
-
-    /**
-     * @param ProductID $productID
-     * @return $this
-     */
-    public function setProductID(ProductID $productID)
-    {
-        $this->productID = $productID;
 
         return $this;
     }

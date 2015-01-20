@@ -7,7 +7,6 @@ namespace WebConsul\EbayApiBundle\Call\Shopping;
 
 use JMS\Serializer\Annotation\XmlRoot;
 use JMS\Serializer\Annotation\XmlList;
-use JMS\Serializer\Annotation\SerializedName;
 
 /**
  * @XmlRoot("GetMultipleItemsRequest")
@@ -15,33 +14,9 @@ use JMS\Serializer\Annotation\SerializedName;
 class GetMultipleItemsCall extends BaseShoppingCall
 {
     /**
-     * @var string
-     * @SerializedName("IncludeSelector")
-     */
-    private $includeSelector;
-    /**
      * @XmlList(inline = true, entry = "ItemID")
      */
     private $itemID;
-
-    /**
-     * @return string
-     */
-    public function getIncludeSelector()
-    {
-        return $this->includeSelector;
-    }
-
-    /**
-     * @param string $includeSelector
-     * @return $this
-     */
-    public function setIncludeSelector($includeSelector)
-    {
-        $this->includeSelector = $includeSelector;
-
-        return $this;
-    }
 
     /**
      * @return array

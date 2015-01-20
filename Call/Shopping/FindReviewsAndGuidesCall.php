@@ -6,7 +6,6 @@
 namespace WebConsul\EbayApiBundle\Call\Shopping;
 
 use JMS\Serializer\Annotation\XmlRoot;
-use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
 use WebConsul\EbayApiBundle\Type\ProductID;
 
@@ -26,18 +25,6 @@ class FindReviewsAndGuidesCall extends BaseShoppingCall
      * @SerializedName(value="MaxResultsPerPage")
      */
     private $maxResultsPerPage;
-
-    /**
-     * @var integer
-     * @SerializedName(value="PageNumber")
-     */
-    private $pageNumber;
-
-    /**
-     * @Type("WebConsul\EbayApiBundle\Type\ProductID")
-     * @SerializedName("ProductID")
-     */
-    private $productID;
 
     /**
      * @var  string
@@ -95,45 +82,7 @@ class FindReviewsAndGuidesCall extends BaseShoppingCall
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getPageNumber()
-    {
-        return $this->pageNumber;
-    }
-
-    /**
-     * @param int $pageNumber
-     * @return $this
-     */
-    public function setPageNumber($pageNumber)
-    {
-        $this->pageNumber = $pageNumber;
-
-        return $this;
-    }
-
-    /**
-     * return WebConsul\EbayApiBundle\Type\ProductID
-     */
-    public function getProductID()
-    {
-        return $this->productID;
-    }
-
-    /**
-     * @param ProductID $productID
-     * @return $this
-     */
-    public function setProductID(ProductID $productID)
-    {
-        $this->productID = $productID;
-
-        return $this;
-    }
-
-    /**
+      /**
      * @return string
      */
     public function getSortOrder()
