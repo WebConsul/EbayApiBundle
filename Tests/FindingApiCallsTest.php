@@ -5,6 +5,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\CssSelector\CssSelector;
 use WebConsul\EbayApiBundle\Call\BaseCall;
+use WebConsul\EbayApiBundle\Type\ItemFilter;
+use WebConsul\EbayApiBundle\Type\PaginationInput;
+use WebConsul\EbayApiBundle\Type\ProductID;
 
 /**
  * Created by PhpStorm.
@@ -15,54 +18,74 @@ use WebConsul\EbayApiBundle\Call\BaseCall;
 class FindingApiCallsTest extends WebTestCase
 {
     const API = 'Finding';
+    private $service;
 
     public function testFindCompletedItems()
     {
+        $itemFilterArray = [];
+        $itemFilter = new ItemFilter();
+        $itemFilter->setName('Condition')->setValue(['3000']);
+        $itemFilterArray[] = $itemFilter;
+        $itemFilter = new ItemFilter();
+        $itemFilter->setName('FreeShippingOnly')->setValue(['true']);
+        $itemFilterArray[] = $itemFilter;
+        $itemFilter = new ItemFilter();
+        $itemFilter->setName('SoldItemsOnly')->setValue(['true']);
+        $itemFilterArray[] = $itemFilter;
+        $paginationInput = new PaginationInput();
+        $paginationInput->setEntriesPerPage(2)->setPageNumber(1);
+
         $callName = 'findCompletedItems';
+        /** @var \WebConsul\EbayApiBundle\Call\Finding\findCompletedItemsCall $call */
         $call = $this->init($callName);
 
-        $call
-            ->setKeywords('Garmin nuvi 1300 Automotive GPS Receiver')
+        $call->setKeywords('Garmin nuvi 1300 Automotive GPS Receiver')
             ->setCategoryId([156955])
-            ->setItemFilter(
-                [
-                    ['name' => 'Condition', 'values' => ['3000']],
-                    ['name' => 'FreeShippingOnly', 'values' => ['true']],
-                    ['name' => 'SoldItemsOnly', 'values' => ['true']],
-                ]
-            )
+            ->setItemFilter($itemFilterArray)
             ->setSortOrder('PricePlusShippingLowest')
-            ->setPaginationInput(['entriesPerPage' => 2, 'pageNumber' => 1]);
+            ->setPaginationInput($paginationInput);
 
         $this->justDoIt($call);
     }
 
     public function testFindItemsAdvanced()
     {
+        $itemFilterArray = [];
+        $itemFilter = new ItemFilter();
+        $itemFilter->setName('Condition')->setValue(['Used']);
+        $itemFilterArray[] = $itemFilter;
+        $itemFilter = new ItemFilter();
+        $itemFilter->setName('ListingType')->setValue(['AuctionWithBIN']);
+        $itemFilterArray[] = $itemFilter;
+        $paginationInput = new PaginationInput();
+        $paginationInput->setEntriesPerPage(2);
+
         $callName = 'findItemsAdvanced';
+        /** @var \WebConsul\EbayApiBundle\Call\Finding\findItemsAdvancedCall $call */
         $call = $this->init($callName);
 
-        $call->setOutputSelector(['AspectHistogram'])
+        $call
             ->setCategoryId([31388])
-            ->setItemFilter(
-                [
-                    ['name' => 'Condition', 'values' => ['Used']],
-                    ['name' => 'ListingType', 'values' => ['AuctionWithBIN']]
-                ]
-            )
-            ->setPaginationInput(['entriesPerPage' => 2]);
+            ->setItemFilter($itemFilterArray)
+            ->setPaginationInput($paginationInput)
+            ->setOutputSelector(['AspectHistogram']);
 
         $this->justDoIt($call);
     }
 
     public function testFindItemsByCategory()
     {
+        $paginationInput = new PaginationInput();
+        $paginationInput->setEntriesPerPage(3);
+
         $callName = 'findItemsByCategory';
+        /** @var \WebConsul\EbayApiBundle\Call\Finding\findItemsByCategoryCall $call */
         $call = $this->init($callName);
 
-        $call->setCategoryId([10181])
-            ->setOutputSelector(['CategoryHistogram'])
-            ->setPaginationInput(['entriesPerPage' => 3]);
+        $call
+            ->setCategoryId([10181])
+            ->setPaginationInput($paginationInput)
+            ->setOutputSelector(['CategoryHistogram']);
 
         $this->justDoIt($call);
     }
@@ -81,41 +104,53 @@ class FindingApiCallsTest extends WebTestCase
 
     public function testFindItemsByKeywords()
     {
+        $itemFilterArray = [];
+        $itemFilter = new ItemFilter();
+        $itemFilter->setName('MaxDistance')->setValue(['25']);
+        $itemFilterArray[] = $itemFilter;
+
         $callName = 'findItemsByKeywords';
+        /** @var \WebConsul\EbayApiBundle\Call\Finding\findItemsByKeywordsCall $call */
         $call = $this->init($callName);
 
-        $call->setKeywords('bagpipes')
+        $call
+            ->setKeywords('bagpipes')
             ->setBuyerPostalCode('95125')
-            ->setItemFilter(
-                array(
-                    array('name' => 'MaxDistance', 'values' => array('25')),
-                )
-            );
+            ->setItemFilter($itemFilterArray);
+
         $this->justDoIt($call);
     }
 
     public function testFindItemsByProduct()
     {
-        $callName = 'findItemsByProduct';
-        $call = $this->init($callName);
+        $productId = new ProductID();
+        $productId->setType('ReferenceID')->setValue(53039031);
+        $pagination = new PaginationInput();
+        $pagination->setEntriesPerPage(2);
 
+        $callName = 'findItemsByProduct';
+        /** @var \WebConsul\EbayApiBundle\Call\Finding\findItemsByProductCall $call */
+        $call = $this->init($callName);
         $call
-            ->setProductIdType('ReferenceID')
-            ->setProductId('53039031')
-            ->setPaginationInput(array('entriesPerPage' => 2));
+            ->setProductId($productId)
+            ->setPaginationInput($pagination);
 
         $this->justDoIt($call);
     }
 
     public function testFindItemsIneBayStores()
     {
+        $paginationInput = new PaginationInput();
+        $paginationInput->setEntriesPerPage(2);
+
         $callName = 'findItemsIneBayStores';
+        /** @var \WebConsul\EbayApiBundle\Call\Finding\findItemsIneBayStoresCall $call */
         $call = $this->init($callName);
 
         $call
             ->setKeywords('iphone')
             ->setStoreName('rick1982rickh')
-            ->setPaginationInput(array('entriesPerPage' => 2));
+            ->setPaginationInput($paginationInput);
 
         $this->justDoIt($call);
     }
@@ -123,6 +158,7 @@ class FindingApiCallsTest extends WebTestCase
     public function testGetHistograms()
     {
         $callName = 'getHistograms';
+        /** @var \WebConsul\EbayApiBundle\Call\Finding\getHistogramsCall $call */
         $call = $this->init($callName);
 
         $call->setCategoryId('11233');
@@ -133,9 +169,19 @@ class FindingApiCallsTest extends WebTestCase
     public function testGetSearchKeywordsRecommendation()
     {
         $callName = 'getSearchKeywordsRecommendation';
+        /** @var \WebConsul\EbayApiBundle\Call\Finding\getSearchKeywordsRecommendationCall $call */
         $call = $this->init($callName);
 
         $call->setKeywords('acordian');
+
+        $this->justDoIt($call, false);
+    }
+
+    public function testGetVersion()
+    {
+        $callName = 'getVersion';
+        /** @var \WebConsul\EbayApiBundle\Call\Finding\getVersionCall $call */
+        $call = $this->init($callName);
 
         $this->justDoIt($call, false);
     }
@@ -153,6 +199,7 @@ class FindingApiCallsTest extends WebTestCase
         $ebay = $container->get('web_consul_ebay_api.main');
         $call = $ebay->getInstance(self::API, $callName);
         $call->setMode($ebay::MODE_PRODUCT);
+        $this->service = $container->get('web_consul_ebay_api.make_call');
 
         return $call;
     }
@@ -163,7 +210,7 @@ class FindingApiCallsTest extends WebTestCase
      */
     private function justDoIt(BaseCall $call, $checkSearchResultsCount = true)
     {
-        $output = $call->getResponse();
+        $output = $this->service->getResponse($call);
         CssSelector::disableHtmlExtension();
         $crawler = new Crawler($output);
 

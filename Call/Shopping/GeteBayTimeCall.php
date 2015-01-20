@@ -4,15 +4,12 @@
  */
 
 namespace WebConsul\EbayApiBundle\Call\Shopping;
+use JMS\Serializer\Annotation\XmlRoot;
 
+/**
+ * @XmlRoot("GeteBayTimeRequest")
+ */
 class GeteBayTimeCall extends BaseShoppingCall
 {
-    /**
-     * @return string
-     */
-    public function getInput()
-    {
-        return '';
-    }
 
 }

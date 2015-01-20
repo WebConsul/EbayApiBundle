@@ -5,59 +5,49 @@
  * Date: 12/30/13
  * Time: 12:58 PM
  */
-
 namespace WebConsul\EbayApiBundle\Call;
 
+use JMS\Serializer\Annotation\ExclusionPolicy;
 
+/** @ExclusionPolicy("all") */
 class BaseCall
 {
 
     const MODE_SANDBOX = 0;
     const MODE_PRODUCT = 1;
 
-    static $parameters;
-
+    public $parameters;
     protected $apiName;
     protected $callName;
     protected $headers = [];
     protected $siteId = 0; // US by default
     protected $mode = 0; // Sandbox by default
     protected $responseFormat = 'XML';
-    protected $input;
     protected $keys = [];
-
-    private $requestUrl;
-    private $postFields;
+    protected $postFields;
 
 
     public function __construct(array $parameters)
     {
-        self::$parameters = $parameters;
-        $this->keys = self::$parameters['application_keys'];
+        $this->parameters = $parameters;
     }
 
     /**
      * @param string $apiName (e.g. Trading, Finding, etc.)
      * @param string $callName
+     * @param integer $mode
      * @return object
      */
-    public function getInstance($apiName, $callName)
+    public function getInstance($apiName, $callName, $mode = self::MODE_PRODUCT)
     {
         $className = 'WebConsul\\EbayApiBundle\\Call\\' . $apiName . '\\' . ucfirst($callName) . 'Call';
-        $instance = new $className(self::$parameters);
-        $instance->setApiName($apiName)->setCallName($callName);
+        /** @var BaseCall $instance */
+        $instance = new $className($this->parameters);
+        $keys = ($mode === self::MODE_PRODUCT) ? $this->parameters['application_keys']['production'] : $this->parameters['application_keys']['sandbox'];
+        $instance->setApiName($apiName)->setCallName($callName)->setMode($mode)->setKeys($keys);
 
         return $instance;
     }
-
-    /**
-     * @return array
-     */
-    public function getHeaders()
-    {
-        return $this->headers;
-    }
-
 
     /**
      * @param int $siteId
@@ -93,28 +83,22 @@ class BaseCall
         return $this;
     }
 
-    public function getResponse()
-    {
-        $this->setHeaders();
-        $ch = curl_init($this->getRequestUrl());
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->getHeaders()); //set headers using the above array of headers
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $this->getPostFields());
-        if (isset(self::$parameters['timeout'])) {
-            curl_setopt($ch, CURLOPT_TIMEOUT, self::$parameters['timeout']);
-        }
-        $data = curl_exec($ch);
-        curl_close($ch);
-
-        return $data;
-    }
 
     public function getCallName()
     {
         return $this->callName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequestUrl()
+    {
+        if ($this->mode === self::MODE_PRODUCT) {
+            return $this::URL_PRODUCT;
+        } else {
+            return $this::URL_SANDBOX;
+        }
     }
 
     protected function setCallName($callName)
@@ -136,49 +120,11 @@ class BaseCall
         return $this;
     }
 
-    public function getPostFields()
+    protected function setKeys(array $keys)
     {
-        if (!$this->postFields) {
-            $this->postFields = $this->openRequest()
-                . $this->getInput()
-                . $this->appendStandardInputFields($this->getStandardInputFields())
-                . $this->closeRequest();
-        }
+        $this->keys = $keys;
 
-        return $this->postFields;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getStandardInputFields()
-    {
-        return $this->standardInputFields;
-    }
-
-    /**
-     * Add standard input fields to the request
-     * @param array $standardInputFields
-     * @return string
-     */
-    protected function appendStandardInputFields($standardInputFields)
-    {
-        $standardInput = '';
-        if (!empty($standardInputFields)) {
-            foreach ($standardInputFields as $inputField) {
-                $method = 'get' . $inputField;
-                $value = $this->$method();
-                if (is_array($value) && !empty($value)) {
-                    foreach ($value as $str) {
-                        $standardInput .= '<' . $inputField . '>' . $str . '</' . $inputField . '>' . "\n";
-                    }
-                } elseif (!is_array($value) && $value) {
-                    $standardInput .= '<' . $inputField . '>' . $value . '</' . $inputField . '>' . "\n";
-                }
-            }
-        }
-
-        return $standardInput;
+        return $this;
     }
 
     /**
@@ -187,38 +133,22 @@ class BaseCall
      */
     protected function getKeys()
     {
-        if ($this->mode === self::MODE_PRODUCT) {
-            return $this->keys['production'];
-        } else {
-            return $this->keys['sandbox'];
-        }
+        return $this->keys;
     }
 
     /**
-     * @return string
+     * @param string $value
+     * @return $this
      */
-    private function getRequestUrl()
+    public function setPostFields($value)
     {
-        if ($this->mode === self::MODE_PRODUCT) {
-            $this->requestUrl = $this::URL_PRODUCT;
-        } else {
-            $this->requestUrl = $this::URL_SANDBOX;
-        }
+        $this->postFields = $value;
 
-        return $this->requestUrl;
+        return $this;
     }
 
-
-    private function openRequest()
+    public function getPostFields()
     {
-        return '<?xml version="1.0" encoding="utf-8"?>' . "\n"
-        . '<' . $this->getCallName() . 'Request xmlns="' . $this::XMLNS . '">' . "\n";
+        return $this->postFields;
     }
-
-    private function closeRequest()
-    {
-        return '</' . $this->getCallName() . 'Request>' . "\n";
-    }
-
-
 }

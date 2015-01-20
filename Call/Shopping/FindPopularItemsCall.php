@@ -5,41 +5,38 @@
 
 namespace WebConsul\EbayApiBundle\Call\Shopping;
 
+use JMS\Serializer\Annotation\XmlRoot;
+use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\XmlList;
+use JMS\Serializer\Annotation\SerializedName;
+
+/**
+ * @XmlRoot("FindPopularItemsRequest")
+ */
 class FindPopularItemsCall extends BaseShoppingCall
 {
-    /** @var array */
-    private $categoryID = array();
-    /** @var array */
-    private $categoryIDExclude = array();
-    /** @var  int */
-    private $maxEntries;
-    /** @var  string */
-    private $queryKeywords;
-
+    /**
+     * @XmlList(inline = true, entry = "CategoryID")
+     */
+    private $categoryID;
 
     /**
-     * @return mixed
+     * @XmlList(inline = true, entry = "CategoryIDExclude")
      */
-    public function getInput()
-    {
-        if (!empty($this->categoryID)) {
-            $this->input .= '<CategoryID>' . implode(',', $this->categoryID) . '</CategoryID>' . "\n";
-        }
-        if (!empty($this->categoryIDExclude)) {
-            $this->input .= '<CategoryIDExclude>' . implode(
-                    ',',
-                    $this->categoryIDExclude
-                ) . '</CategoryIDExclude>' . "\n";
-        }
-        if ($this->maxEntries) {
-            $this->input .= '<MaxEntries>' . $this->maxEntries . '</MaxEntries>' . "\n";
-        }
-        if ($this->queryKeywords) {
-            $this->input .= '<QueryKeywords>' . $this->queryKeywords . '</QueryKeywords>' . "\n";
-        }
+    private $categoryIDExclude;
 
-        return $this->input;
-    }
+    /**
+     * @var  integer
+     * @SerializedName("MaxEntries")
+     */
+    private $maxEntries;
+
+    /**
+     * @var  string
+     * @SerializedName("QueryKeywords")
+     */
+    private $queryKeywords;
+
 
     /**
      * @return array

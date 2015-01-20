@@ -5,27 +5,25 @@
 
 namespace WebConsul\EbayApiBundle\Call\Shopping;
 
+use JMS\Serializer\Annotation\XmlRoot;
+use JMS\Serializer\Annotation\SerializedName;
+
+/**
+ * @XmlRoot("GetCategoryInfoRequest")
+ */
 class GetCategoryInfoCall extends BaseShoppingCall
 {
-    /** @var string */
+    /**
+     * @var string
+     * @SerializedName(value="CategoryID")
+     */
     private $categoryID;
-    /** @var  string */
-    private $includeSelector;
 
     /**
-     * @return string
+     * @var  string
+     * @SerializedName(value="IncludeSelector")
      */
-    public function getInput()
-    {
-        if ($this->categoryID) {
-            $this->input .= '<CategoryID>' . $this->categoryID . '</CategoryID>' . "\n";
-        }
-        if ($this->includeSelector) {
-            $this->input .= '<IncludeSelector>' . $this->includeSelector . '</IncludeSelector>' . "\n";
-        }
-
-        return $this->input;
-    }
+    private $includeSelector;
 
     /**
      * @return string
