@@ -12,38 +12,35 @@ class CallController extends Controller
      */
     public function indexAction()
     {
-        $callList = [
-            'Shopping' =>
-                [
-                    'FindHalfProducts',
-                    'FindPopularItems',
-                    'FindPopularSearches',
-                    'FindProducts',
-                    'FindReviewsAndGuides',
-                    'GetCategoryInfo',
-                    'GeteBayTime',
-                    'GetItemStatus',
-                    'GetMultipleItems',
-                    'GetShippingCosts',
-                    'GetSingleItem',
-                    'GetUserProfile'
-                ],
-            'Trading' => ['GetCategories'],
-            'Finding' => [
-                'findCompletedItems',
-                'findItemsAdvanced',
-                'findItemsByCategory',
-                'findItemsByImage',
-                'findItemsByKeywords',
-                'findItemsByProduct',
-                'findItemsIneBayStores',
-                'getHistograms',
-                'getSearchKeywordsRecommendation',
-                'getVersion'
-            ],
-        ];
+        /** @var \WebConsul\EbayApiBundle\Call\BaseCall $ebay */
+        $ebay = $this->get('web_consul_ebay_api.main');
 
-        return $this->render('WebConsulEbayApiBundle:Call:index.html.twig', ['callList' => $callList]);
+        return $this->render('WebConsulEbayApiBundle:Call:index.html.twig', ['callList' => $ebay->getCallReference()]);
+    }
+
+    /**
+     * @Route("/{api}/{callName}", name="callExample")
+     * @param string $api
+     * @param string $callName
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function callAction($api, $callName)
+    {
+        /** @var \WebConsul\EbayApiBundle\Call\BaseCall $ebay */
+        $ebay = $this->get('web_consul_ebay_api.main');
+        /** @var \WebConsul\EbayApiBundle\Call\BaseCall $call */
+        $call = $ebay->getInstance($api, $callName, $ebay::MODE_PRODUCT);
+        $apiService = $this->get('web_consul_ebay_api.' . strtolower($api));
+        $call = $apiService->$callName($call);
+
+        /** @var \WebConsul\EbayApiBundle\Service\MakeCallService $service */
+        $callService = $this->get('web_consul_ebay_api.make_call');
+        $output = $callService->getResponse($call);
+
+        return $this->render(
+            'WebConsulEbayApiBundle:Call:testCall.html.twig',
+            ['call' => $call, 'output' => $output,]
+        );
     }
 
 }

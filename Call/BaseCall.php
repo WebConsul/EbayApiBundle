@@ -151,4 +151,39 @@ class BaseCall
     {
         return $this->input;
     }
+
+    public function getCallReference()
+    {
+        return
+            [
+                'Shopping' =>
+                    [
+                        'FindHalfProducts',
+                        'FindPopularItems',
+                        'FindPopularSearches',
+                        'FindProducts',
+                        'FindReviewsAndGuides',
+                        'GetCategoryInfo',
+                        'GeteBayTime',
+                        'GetItemStatus',
+                        'GetMultipleItems',
+                        'GetShippingCosts',
+                        'GetSingleItem',
+                        'GetUserProfile'
+                    ],
+                'Trading' => ['GetCategories'],
+                'Finding' => [
+                    'findCompletedItems',
+                    'findItemsAdvanced',
+                    'findItemsByCategory',
+                    'findItemsByImage',
+                    'findItemsByKeywords',
+                    'findItemsByProduct',
+                    'findItemsIneBayStores',
+                    'getHistograms',
+                    'getSearchKeywordsRecommendation',
+                    'getVersion'
+                ],
+            ];
+    }
 }
