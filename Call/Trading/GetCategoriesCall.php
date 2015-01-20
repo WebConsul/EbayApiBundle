@@ -113,5 +113,4 @@ class GetCategoriesCall extends BaseTradingCall
         return $this;
     }
 
-
 }

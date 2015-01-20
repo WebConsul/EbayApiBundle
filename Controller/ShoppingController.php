@@ -290,7 +290,7 @@ class ShoppingController extends Controller
      * @Route("/GetUserProfile", name="GetUserProfile")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getUserProfile()
+    public function getUserProfileAction()
     {
         /** @var \WebConsul\EbayApiBundle\Call\BaseCall $ebay */
         $ebay = $this->get('web_consul_ebay_api.main');

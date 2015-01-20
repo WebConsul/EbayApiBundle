@@ -63,5 +63,4 @@ class GetUserProfileCall extends BaseShoppingCall
         return $this;
     }
 
-
 }
