@@ -7,7 +7,6 @@ namespace WebConsul\EbayApiBundle\Call\Shopping;
 
 use JMS\Serializer\Annotation\XmlRoot;
 use JMS\Serializer\Annotation\SerializedName;
-use WebConsul\EbayApiBundle\Type\ProductID;
 
 /**
  * @XmlRoot("FindReviewsAndGuidesRequest")
