@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: yakut
- * Date: 12/30/13
- * Time: 12:58 PM
- */
 
 namespace WebConsul\EbayApiBundle\Call\Trading;
 
