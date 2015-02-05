@@ -87,7 +87,7 @@ Add EbayApiBundle in your composer.json:
 ```js
 {
     "require": {
-        "webconsul/ebay-api-bundle": "0.2.*"
+       "webconsul/ebay-api-bundle": "dev-master"
     }
 }
 ```
