@@ -9,8 +9,7 @@ This project intends to create a simple wrapper around main eBay APIs:
 
 **Caution:** Calls for Trading API are in progress... Coming soon.
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/01150b13-24c6-44bc-8f27-ec61731e5c35/small.png)](https://insight.sensiolabs.com/projects/01150b13-24c6-44bc-8f27-ec61731e5c35)
-
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/01150b13-24c6-44bc-8f27-ec61731e5c35/mini.png)](https://insight.sensiolabs.com/projects/01150b13-24c6-44bc-8f27-ec61731e5c35)[![Latest Stable Version](https://poser.pugx.org/webconsul/ebay-api-bundle/v/stable.svg)](https://packagist.org/packages/webconsul/ebay-api-bundle) [![Total Downloads](https://poser.pugx.org/webconsul/ebay-api-bundle/downloads.svg)](https://packagist.org/packages/webconsul/ebay-api-bundle) [![Latest Unstable Version](https://poser.pugx.org/webconsul/ebay-api-bundle/v/unstable.svg)](https://packagist.org/packages/webconsul/ebay-api-bundle) [![License](https://poser.pugx.org/webconsul/ebay-api-bundle/license.svg)](https://packagist.org/packages/webconsul/ebay-api-bundle)
 API Reference (supporting calls)
 --------------------------------
 
@@ -107,6 +106,19 @@ public function registerBundles()
         // ...
         new WebConsul\EbayApiBundle\WebConsulEbayApiBundle(),
     );
+}
+```
+### Step 4: Enable JMS Serializer
+This bundle needs JMS Serializer to work correctly. So, you need register it:
+``` php
+<?php
+// app/AppKernel.php
+public function registerBundles()
+{
+    // ...
+    new JMS\SerializerBundle\JMSSerializerBundle(),
+    // ...
+);
 }
 ```
 ### Step 4: Configure
