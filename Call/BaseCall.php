@@ -83,6 +83,15 @@ class BaseCall
         return $this;
     }
 
+    /**
+     * @desc response format getter
+     * @author Valentin Ruskevych @ github.com/xbugster
+     * @return string
+     */
+    public function getResponseFormat()
+    {
+        return $this->responseFormat;
+    }
 
     public function getCallName()
     {
