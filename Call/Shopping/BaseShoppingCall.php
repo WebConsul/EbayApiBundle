@@ -75,7 +75,7 @@ class BaseShoppingCall extends BaseCall implements AbstractApiInterface
             'X-EBAY-API-APP-ID:' . $this->keys['app_id'],
             'X-EBAY-API-VERSION:' . self::API_VERSION,
             'X-EBAY-API-REQUEST-ENCODING:XML',
-            'X-EBAY-API-RESPONSE-ENCODING:' . $this->responseFormat,
+            'X-EBAY-API-RESPONSE-ENCODING:' . $this->getResponseFormat(),
             // for a POST request, the response by default is in the same format as the request
             'Content-Type:text/xml;charset=utf-8',
         );

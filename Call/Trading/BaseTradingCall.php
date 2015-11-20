@@ -77,6 +77,7 @@ class BaseTradingCall extends BaseCall implements AbstractApiInterface
                 'X-EBAY-API-CERT-NAME:' . $this->keys['cert_id'],
                 'X-EBAY-API-COMPATIBILITY-LEVEL:' . self::API_VERSION,
                 'X-EBAY-API-REQUEST-ENCODING:XML',
+                'X-EBAY-API-RESPONSE-ENCODING:' . $this->getResponseFormat(),
                 // for a POST request, the response by default is in the same format as the request
                 'Content-Type:text/xml;charset=utf-8',
             ];

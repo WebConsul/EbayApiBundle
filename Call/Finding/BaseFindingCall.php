@@ -101,6 +101,7 @@ class BaseFindingCall extends BaseCall implements AbstractApiInterface
             'X-EBAY-SOA-SECURITY-APPNAME:' . $this->keys['app_id'],
             'X-EBAY-SOA-SERVICE-VERSION:' . self::API_VERSION,
             'X-EBAY-SOA-REQUEST-DATA-FORMAT:XML',
+            'X-EBAY-SOA-RESPONSE-DATA-FORMAT:' . $this->getResponseFormat(),
             // for a POST request, the response by default is in the same format as the request
             'Content-Type:text/xml;charset=utf-8',
         );
